@@ -1,0 +1,1874 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F7D9A8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Learn Chinese">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>bored? learn chinese!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=ZCOOL+KuaiLe&family=Nunito:wght@400;600;800&display=swap">
+<style>
+/* Layout: a cozy pixel "dzong" — prayer-flag header, Momo's dialog box, chunky pixel panels; bottom nav on phones */
+:root{
+  /* Boba milk tea: cream, peach, taro, matcha, brown sugar */
+  --bg:#FFF6E9; --panel:#FFFDF8; --panel2:#F8E8D6; --ink:#4A3B35; --ink2:#8B6F5E; --line:#5C4033; --shadow:#5C4033;
+  --butter:#F7D9A8; --peach:#F5C6A5; --rose:#EDB8C8; --honey:#E3B47A; --mint:#C5DFC0; --sky:#D7C0E0; --on-pastel:#3E2C24;
+  --t1:#CC4B66; --t2:#B8701F; --t3:#4A8F55; --t4:#4F72BF; --t0:#A08B7F;
+  --good:#4A8F55; --bad:#CC4B66;
+  --font-pixel:'Silkscreen',ui-monospace,monospace;
+  --font-han:'ZCOOL KuaiLe','PingFang SC','Noto Sans SC','Hiragino Sans GB',sans-serif;
+  --font-body:'Nunito',ui-rounded,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#2B211C; --panel:#3B2D26; --panel2:#47362D; --ink:#FBEFE3; --ink2:#D6BFAE; --line:#17100C; --shadow:#17100C;
+  --t1:#F28CA5; --t2:#F0B36A; --t3:#8FCB8F; --t4:#9DB5F0; --t0:#B9A79B; --good:#8FCB8F; --bad:#F28CA5; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#2B211C; --panel:#3B2D26; --panel2:#47362D; --ink:#FBEFE3; --ink2:#D6BFAE; --line:#17100C; --shadow:#17100C;
+  --t1:#F28CA5; --t2:#F0B36A; --t3:#8FCB8F; --t4:#9DB5F0; --t0:#B9A79B; --good:#8FCB8F; --bad:#F28CA5; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 96px}
+.wrap{max-width:860px;margin:0 auto}
+h1,h2,h3{font-family:var(--font-pixel);font-weight:400;margin:0;text-wrap:balance;letter-spacing:.02em}
+h2{font-size:20px} h3{font-size:15px}
+.han{font-family:var(--font-han)}
+.muted{color:var(--ink2)}
+.small{font-size:13px}
+/* header */
+header{padding-block:12px 4px}
+.flags{position:relative;display:flex;gap:10px;padding:6px 4px 0;overflow:hidden;min-height:30px}
+.flags::before{content:"";position:absolute;left:0;right:0;top:6px;border-top:2px solid var(--ink2)}
+.flag{width:22px;height:18px;flex:none;border:2px solid var(--line);position:relative}
+.flag.off{background:transparent!important;border:2px dashed var(--ink2);opacity:.6}
+.brand{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}
+.brand h1{font-size:clamp(18px,4.6vw,26px)}
+.brand .sub{font-family:var(--font-han);font-size:18px;color:var(--ink2)}
+#coins{margin-left:auto} #coins+.sync{margin-left:0}
+.sync{font-size:12px;font-family:var(--font-pixel);padding:3px 8px;border:2px solid var(--line);background:var(--panel2)}
+/* nav */
+nav{display:flex;gap:8px;margin:14px 0 18px}
+nav button{flex:1}
+@media (max-width:759px){
+  nav{position:fixed;left:0;right:0;bottom:0;margin:0;z-index:20;background:var(--panel);border-top:3px solid var(--line);gap:0;
+    padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  nav button{border:0!important;box-shadow:none!important;background:transparent!important;font-size:11px;padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:2px}
+  nav button[aria-current="page"]{background:var(--butter)!important;color:var(--on-pastel)}
+}
+nav .ico{font-size:18px;line-height:1}
+/* pixel controls */
+.btn,nav button{font-family:var(--font-pixel);font-size:13px;color:var(--ink);background:var(--panel);border:3px solid var(--line);
+  box-shadow:3px 3px 0 var(--shadow);padding:9px 14px;cursor:pointer;transition:transform .05s}
+.btn:active,nav button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
+.btn:focus-visible,nav button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--t4);outline-offset:2px}
+.btn.primary,nav button[aria-current="page"]{background:var(--butter);color:var(--on-pastel)}
+.btn.peach{background:var(--peach);color:var(--on-pastel)}
+.btn.mint{background:var(--mint);color:var(--on-pastel)}
+.btn.rose{background:var(--rose);color:var(--on-pastel)}
+.btn.sky{background:var(--sky);color:var(--on-pastel)}
+.btn.sm{padding:5px 9px;font-size:11px;box-shadow:2px 2px 0 var(--shadow);border-width:2px}
+.btn.big{font-size:16px;padding:14px 20px}
+.icon-btn{font-family:var(--font-body);font-size:15px;padding:4px 8px}
+.panel{background:var(--panel);border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadow);padding:16px}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:var(--ink2)}
+input,textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--panel2);border:2px solid var(--line);padding:8px 10px;border-radius:0}
+textarea{min-height:90px;resize:vertical}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.err{color:var(--bad);font-size:13px;min-height:1em;margin-top:4px}
+.chip{font-family:var(--font-pixel);font-size:11px;padding:2px 6px;border:2px solid var(--line);background:var(--panel2);white-space:nowrap}
+.chip.due{background:var(--peach);color:var(--on-pastel)} .chip.new{background:var(--sky);color:var(--on-pastel)}
+/* Momo + dialog */
+.momo-scene{display:flex;gap:14px;align-items:flex-end}
+.momo{width:96px;height:80px;image-rendering:pixelated;flex:none}
+.momo.big{width:132px;height:110px}
+.pet{width:144px;height:171px;image-rendering:pixelated;flex:none}
+.pet.bounce,.momo.bounce{animation:hop .5s steps(3)}
+@keyframes hop{50%{transform:translateY(-10px)}}
+.dialog{position:relative;flex:1;min-width:0;background:var(--panel);border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadow);padding:14px 16px 12px;font-size:16px}
+.dialog .name{position:absolute;top:-14px;left:12px;font-family:var(--font-pixel);font-size:11px;background:var(--rose);color:var(--on-pastel);border:2px solid var(--line);padding:1px 8px}
+.friends{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:10px}
+.friend{display:flex;gap:10px;align-items:flex-start;border:2px solid var(--line);background:var(--panel2);padding:10px}
+.friend.cur{background:var(--panel);box-shadow:3px 3px 0 var(--shadow)}
+.friend .momo{width:72px;height:60px}
+.friend .fi{min-width:0}
+.catbar{display:flex;gap:8px;flex-wrap:wrap}
+.catbar .btn[aria-pressed="true"]{background:var(--butter);color:var(--on-pastel)}
+.chip.cat{background:var(--panel)}
+.jcard{position:relative;background-color:var(--panel);background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--panel2) 31px 33px);padding-top:22px}
+.jcard::before{content:"";position:absolute;top:-10px;left:24px;width:76px;height:18px;background:var(--rose);opacity:.85;transform:rotate(-4deg);border:2px solid var(--line)}
+.jdate{font-family:var(--font-pixel);font-size:12px;color:var(--ink2)}
+.jtopic{font-family:var(--font-body);font-weight:800;font-size:18px;margin-top:2px}
+.jnotes{white-space:pre-wrap;margin:10px 0 0;overflow-wrap:anywhere}
+.jsec{margin-top:12px}
+.jsec .k{font-family:var(--font-pixel);font-size:11px;color:var(--ink2);margin-bottom:6px}
+.jwords{display:flex;gap:6px;flex-wrap:wrap}
+.jwords .btn{font-family:var(--font-han);font-size:18px;padding:3px 8px}
+.hw{display:flex;gap:8px;align-items:flex-start;width:100%;text-align:left;background:transparent;border:0;padding:4px 0;font:inherit;color:var(--ink);cursor:pointer}
+.hw .box{flex:none;width:18px;height:18px;border:2px solid var(--line);background:var(--panel);margin-top:3px;display:grid;place-items:center;font-size:12px;line-height:1}
+.hw[aria-pressed="true"] .box{background:var(--mint)} .hw[aria-pressed="true"] .t{text-decoration:line-through;color:var(--ink2)}
+.moodbtn{font-size:22px;padding:4px 10px} .moodbtn[aria-pressed="true"]{background:var(--butter)}
+.seg{display:flex;gap:6px}
+hr.dash{border:0;border-top:2px dashed var(--ink2);margin:6px 0;width:100%}
+.legend{margin-left:8px;white-space:nowrap} .legend .dot{display:inline-block;width:9px;height:9px;margin:0 3px 0 6px;vertical-align:middle}
+.wgroup,.note{background:var(--panel);border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadow)}
+.wgroup>summary,.witem>summary,.note>summary{list-style:none;cursor:pointer}
+.wgroup>summary::before,.witem>summary::before,.note>summary::before{content:none}
+.wgroup>summary::-webkit-details-marker,.witem>summary::-webkit-details-marker,.note>summary::-webkit-details-marker{display:none}
+.wgroup>summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:12px 14px}
+.gname{font-family:var(--font-pixel);font-size:14px}
+.gname::before,.ntitle::before{content:"▸ ";color:var(--ink2)} .wgroup[open] .gname::before,.note[open] .ntitle::before{content:"▾ "}
+.gmeta{font-size:13px;color:var(--ink2);text-align:right;white-space:nowrap}
+.gbar{grid-column:1/-1;height:8px;border:2px solid var(--line);background:var(--panel2)} .gbar i{display:block;height:100%;background:var(--mint)}
+.glist{border-top:2px dashed var(--ink2)}
+.witem+.witem{border-top:1px solid var(--panel2)}
+.witem>summary{display:flex;align-items:baseline;gap:4px 10px;padding:10px 14px;flex-wrap:wrap}
+.witem[open]>summary{background:var(--panel2)}
+.wpy{font-size:18px} .wh{font-size:24px} .whz{font-size:15px}
+.wmean{flex:1;min-width:8em;color:var(--ink2);overflow-wrap:anywhere}
+.dot{width:10px;height:10px;border:2px solid var(--line);align-self:center;flex:none;background:var(--panel)}
+.dot.new{background:var(--sky)} .dot.due{background:var(--peach)} .dot.ok{background:var(--mint)}
+.wmore{padding:4px 14px 14px;display:flex;flex-direction:column;gap:8px;background:var(--panel2)}
+.note>summary{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;align-items:center;padding:12px 14px}
+.ndate{grid-row:span 2;font-family:var(--font-pixel);font-size:11px;text-align:center;background:var(--butter);color:var(--on-pastel);border:2px solid var(--line);padding:4px 6px;line-height:1.3;min-width:58px}
+.ndate b{display:block;font-size:20px;font-weight:400}
+.ntitle{font-weight:800;font-size:17px;overflow-wrap:anywhere}
+.nmeta{font-size:13px;color:var(--ink2)}
+.nbody{border-top:2px dashed var(--ink2);padding:6px 16px 16px;background-color:var(--panel);background-image:repeating-linear-gradient(to bottom,transparent 0 30px,var(--panel2) 30px 32px)}
+.nbody section{margin-top:14px}
+.nbody h4{font-family:var(--font-pixel);font-weight:400;font-size:12px;margin:0 0 6px;display:inline-block;background:var(--rose);color:var(--on-pastel);padding:1px 8px;border:2px solid var(--line)}
+.nbody ul{margin:0;padding-left:20px} .nbody li{margin:2px 0}
+.nsub{font-weight:800;margin:8px 0 2px}
+.npat{padding:6px 0;border-bottom:1px dashed var(--ink2)} .npat b{font-family:var(--font-han);font-weight:400;font-size:18px} .npat .ex{color:var(--ink2)}
+.vrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) auto;gap:8px;align-items:center;padding:5px 0;border-bottom:1px dashed var(--ink2)}
+.vrow .han{font-size:17px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:12px}
+.game{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;font-family:var(--font-body);font-size:15px;padding:14px}
+.game .gi{font-size:30px;line-height:1}
+.game b{display:block;font-family:var(--font-pixel);font-weight:400;font-size:14px;margin-bottom:2px}
+.game .small{display:block;margin-top:6px}
+.event{background:var(--butter);color:var(--on-pastel)}
+.hm{border-collapse:separate;border-spacing:4px;font-size:12px;font-variant-numeric:tabular-nums}
+.hm th{font-family:var(--font-pixel);font-weight:400;color:var(--ink2);padding:2px 4px}
+.hm td{width:52px;height:34px;text-align:center;border:2px solid var(--line);background:var(--panel2)}
+.hm td.good{background:var(--mint);color:var(--on-pastel)} .hm td.mid{background:var(--butter);color:var(--on-pastel)} .hm td.bad{background:var(--rose);color:var(--on-pastel)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (min-width:600px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.mcard{min-height:84px;font-family:var(--font-body);font-size:16px;padding:8px;display:grid;place-items:center;text-align:center;overflow-wrap:anywhere}
+.mcard.back{background:var(--sky);color:var(--on-pastel);font-family:var(--font-pixel);font-size:22px}
+.mcard.done{background:var(--mint);color:var(--on-pastel)}
+.timebar{height:14px;border:3px solid var(--line);background:var(--panel2)} .timebar>div{height:100%;background:var(--peach)}
+.flash-ok{outline:4px solid var(--good)} .flash-bad{outline:4px solid var(--bad)}
+.bars{display:flex;gap:8px;align-items:flex-end;height:120px;padding-top:8px}
+.bars .bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%;font-size:11px;color:var(--ink2)}
+.bars .bar i{display:block;width:100%;background:var(--sky);border:2px solid var(--line);min-height:4px}
+.hbar{display:grid;grid-template-columns:minmax(0,9em) minmax(0,1fr) auto;gap:8px;align-items:center;font-size:14px;margin:4px 0}
+.hbar .track{height:12px;border:2px solid var(--line);background:var(--panel2)} .hbar .track i{display:block;height:100%;background:var(--mint)}
+.chat{display:flex;flex-direction:column;gap:12px}
+.bubble{max-width:92%;border:3px solid var(--line);padding:10px 12px;box-shadow:3px 3px 0 var(--shadow);overflow-wrap:anywhere}
+.bubble.me{align-self:flex-end;background:var(--butter);color:var(--on-pastel)}
+.bubble.momo{align-self:flex-start;background:var(--panel)}
+.bubble .who{font-family:var(--font-pixel);font-size:11px;color:var(--ink2);margin-bottom:4px}
+.bubble.me .who{color:var(--on-pastel)}
+.room{width:100%;max-width:560px;aspect-ratio:32/20;image-rendering:pixelated;border:3px solid var(--line);box-shadow:4px 4px 0 var(--shadow);display:block;margin:0 auto}
+.shop{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px}
+.item{border:2px solid var(--line);background:var(--panel);padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.item b{font-size:15px}
+.exopt[aria-pressed="true"]{background:var(--sky);color:var(--on-pastel)}
+.zzz{font-family:var(--font-pixel);font-size:12px;color:var(--ink2)}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:12px}
+.stat{background:var(--panel2);border:3px solid var(--line);padding:10px 12px}
+.stat .k{font-family:var(--font-pixel);font-size:11px;color:var(--ink2)}
+.stat .v{font-family:var(--font-pixel);font-size:24px;font-variant-numeric:tabular-nums}
+.meter{display:flex;gap:3px;margin-top:6px}
+.meter i{flex:1;height:12px;border:2px solid var(--line);background:transparent}
+.meter i.on{background:var(--rose)}
+.meter.food i.on{background:var(--peach)} .meter.tummy i.on{background:var(--mint)}
+/* word list */
+.wlist{display:flex;flex-direction:column;gap:8px}
+.wrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;background:var(--panel);border:2px solid var(--line);padding:8px 10px}
+.wrow .h{font-family:var(--font-han);font-size:28px;line-height:1.1}
+.wrow .mean{font-size:14px;color:var(--ink2);overflow-wrap:anywhere}
+.wrow .acts{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.py{font-weight:800;letter-spacing:.01em}
+.tn1{color:var(--t1)} .tn2{color:var(--t2)} .tn3{color:var(--t3)} .tn4{color:var(--t4)} .tn0{color:var(--t0)}
+/* flashcard */
+.card{background:var(--panel);border:3px solid var(--line);box-shadow:6px 6px 0 var(--shadow);min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 16px;gap:10px;cursor:pointer;user-select:none}
+.card .h{font-family:var(--font-han);font-size:clamp(64px,18vw,110px);line-height:1}
+.card .py{font-size:24px}
+.card .ex{font-size:15px;color:var(--ink2);max-width:46ch}
+.rate{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.rate .btn{padding:10px 4px;font-size:12px}
+.rate .btn span{display:block;font-family:var(--font-body);font-size:11px;opacity:.85}
+.progress{height:14px;border:3px solid var(--line);background:var(--panel2)}
+.progress>div{height:100%;background:var(--mint);transition:width .2s}
+/* quiz */
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:10px}
+.opt{font-family:var(--font-body);font-size:18px;text-align:left;padding:12px 14px}
+.opt.han-opt{font-family:var(--font-han);font-size:30px;text-align:center}
+.opt.right{background:var(--mint)!important;color:var(--on-pastel)} .opt.wrong{background:var(--rose)!important;color:var(--on-pastel)}
+.target{display:inline-flex;gap:4px;flex-wrap:wrap}
+.target b{width:14px;height:14px;border:2px solid var(--line);background:var(--panel2)}
+.target b.hit{background:var(--t1)}
+/* grammar */
+.gcard .pat{font-family:var(--font-han);font-size:24px}
+.gcard ul{margin:8px 0 0;padding-left:20px}
+.gcard li{font-family:var(--font-han);font-size:18px}
+details>summary{cursor:pointer;font-family:var(--font-pixel);font-size:13px;list-style:none}
+details>summary::before{content:"▸ "} details[open]>summary::before{content:"▾ "}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--butter);color:var(--on-pastel);
+  border:3px solid var(--line);box-shadow:3px 3px 0 var(--shadow);font-family:var(--font-pixel);font-size:12px;padding:8px 14px;max-width:calc(100% - 32px)}
+@media (min-width:760px){.toast{bottom:24px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="flags" id="flags" aria-label="Lesson prayer flags"></div>
+  <div class="brand">
+    <h1>bored? learn chinese!</h1>
+    <span class="sub">无聊？学中文！</span>
+    <span class="sync" id="coins" title="Nu (ngultrum) coins, earned by learning">🪙 Nu 0</span><span class="sync" id="sync">Saved here</span>
+  </div>
+</header>
+
+<nav id="nav">
+  <button data-view="home"><span class="ico" aria-hidden="true">家</span>Home</button>
+  <button data-view="review"><span class="ico" aria-hidden="true">复</span>Review</button>
+  <button data-view="words"><span class="ico" aria-hidden="true">词</span>Words</button>
+  <button data-view="journal"><span class="ico" aria-hidden="true">笔</span>Notes</button>
+  <button data-view="play"><span class="ico" aria-hidden="true">玩</span>Play</button>
+</nav>
+
+<main>
+<!-- HOME -->
+<section id="v-home" class="stack">
+  <div class="momo-scene">
+    <canvas class="pet" id="momo-home" width="160" height="190" aria-label="Momo the red panda"></canvas>
+    <div class="dialog"><span class="name">Momo</span><div id="home-msg">你好! Loading your words…</div></div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="panel event" id="home-event" hidden></div>
+  <div class="panel" id="home-class"></div>
+  <div class="panel" id="home-friends"></div>
+  <div class="row" id="home-actions"></div>
+  <div class="panel" id="home-lessons"></div>
+  <div class="panel" id="home-mode"></div>
+  <div class="panel stack" id="home-backup">
+    <h3>Backup</h3>
+    <p class="small muted" style="margin:0" id="backup-note">Save all your words, notes and progress to a file, or load a backup. Use this to move your data between the online app and the offline app.</p>
+    <div class="row"><button class="btn" data-act="export">Save backup file</button>
+      <label class="btn" for="import-file" style="margin:0;display:inline-block;color:var(--ink)">Load backup file</label>
+      <input type="file" id="import-file" accept=".json,application/json" style="position:absolute;width:1px;height:1px;opacity:0"></div>
+    <div class="err" id="backup-err"></div>
+  </div>
+</section>
+
+<!-- REVIEW -->
+<section id="v-review" class="stack" hidden></section>
+
+<!-- WORDS -->
+<section id="v-words" class="stack" hidden>
+  <div class="row" style="align-items:flex-end">
+    <div style="flex:1;min-width:180px"><label for="w-search">Search your words</label><input id="w-search" type="search" placeholder="pinyin, meaning or hanzi" autocomplete="off"></div>
+    <div><span class="small muted" style="display:block;margin-bottom:4px;font-weight:600">Group by</span>
+      <div class="seg" role="group" aria-label="Group words by"><button class="btn sm" data-group="category">Category</button><button class="btn sm" data-group="lesson">Lesson</button></div></div>
+  </div>
+  <div class="row" style="justify-content:space-between"><span class="small muted" id="w-count"></span><span id="w-extra"></span></div>
+
+  <details class="panel" id="add-wrap">
+    <summary id="form-title">Add a word</summary>
+    <div class="stack" style="margin-top:12px">
+      <div class="grid2">
+        <div><label for="f-pinyin">Pinyin (type numbers: peng2you)</label><input id="f-pinyin" placeholder="peng2you" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <div class="small" id="f-pypreview" aria-live="polite"></div></div>
+        <div><label for="f-meaning">Meaning</label><input id="f-meaning" placeholder="friend" autocomplete="off"></div>
+        <div><label for="f-category">Category (pick or type your own)</label><input id="f-category" list="cat-list" placeholder="People" autocomplete="off"><datalist id="cat-list"></datalist></div>
+        <div><label for="f-lesson">Lesson</label><input id="f-lesson" placeholder="L2" autocomplete="off"></div>
+        <div><label for="f-hanzi">Hanzi</label><input id="f-hanzi" class="han" placeholder="朋友" autocomplete="off"></div>
+        <div><label for="f-dz">Dzongkha meaning (optional)</label><input id="f-dz" placeholder="ཆ་རོགས" autocomplete="off"></div>
+      </div>
+      <div><label for="f-example">Example sentence</label><input id="f-example" class="han" placeholder="Tā shì wǒ de péngyou." autocomplete="off"></div>
+      <div><label for="f-notes">Notes or mnemonic</label><input id="f-notes" placeholder="péng sounds like 'pong', you play ping-pong with a friend" autocomplete="off"></div>
+      <div class="err" id="f-err"></div>
+      <div class="row"><button class="btn primary" id="f-save">Add word</button><button class="btn" id="f-cancel" hidden>Cancel edit</button></div>
+      <hr class="dash">
+      <h3>Paste many at once</h3>
+      <p class="small muted" style="margin:0">One word per line: pinyin | meaning | lesson | category. If you know the hanzi, put it first: hanzi | pinyin | meaning | lesson | category. Tone numbers are converted for you.</p>
+      <textarea id="bulk" class="han" placeholder="he1 | to drink | L3 | Food and drink&#10;hong2se4 | red | L4 | Colors"></textarea>
+      <div class="err" id="bulk-err"></div>
+      <div class="row"><button class="btn mint" id="bulk-go">Import words</button><button class="btn" id="starter-2">Add starter pack</button></div>
+    </div>
+  </details>
+
+  <div class="stack" id="wgroups"></div>
+</section>
+
+<!-- JOURNAL -->
+<section id="v-journal" class="stack" hidden>
+  <div class="panel" id="j-banner"></div>
+  <details class="panel" id="j-form-wrap">
+    <summary id="j-form-title">Write class notes</summary>
+    <div class="stack" style="margin-top:12px">
+      <p class="small muted" style="margin:0">Type tone numbers like wo3 shi4 and they become wǒ shì when you save. Start a line with # to make a small heading.</p>
+      <div class="grid2">
+        <div><label for="j-date">Class date</label><input id="j-date" type="date"></div>
+        <div><label for="j-lesson">Lesson</label><input id="j-lesson" placeholder="L5" autocomplete="off"></div>
+      </div>
+      <div><label for="j-topic">Topic</label><input id="j-topic" placeholder="Introducing yourself" autocomplete="off"></div>
+      <div><label for="j-notes">Key points</label><textarea id="j-notes" rows="6" placeholder="# Greetings&#10;- ni3 hao3 = hello, nin2 hao3 is more polite&#10;- Greet the teacher with lao3shi1 hao3"></textarea></div>
+      <div><label for="j-pron">Pronunciation and tones</label><textarea id="j-pron" placeholder="- Two 3rd tones in a row: the first one becomes 2nd tone&#10;- bu4 becomes bu2 before a 4th tone (bu2 shi4)"></textarea></div>
+      <div><label for="j-pat">Sentence patterns (pattern = example)</label><textarea id="j-pat" placeholder="S + shi4 + N = Wo3 shi4 xue2sheng.&#10;S + jiao4 + name = Wo3 jiao4 Momo."></textarea></div>
+      <div><label for="j-words" id="j-words-label">Vocabulary: pinyin | meaning | category (hanzi first is optional)</label>
+        <textarea id="j-words" class="han" placeholder="bei1 | cup (measure word) | Food and drink&#10;liang3 | two (before measure words) | Numbers"></textarea>
+        <div class="small muted">These go into your word bank, tagged with this class.</div></div>
+      <div class="grid2">
+        <div><label for="j-hw">Homework (one per line)</label><textarea id="j-hw" placeholder="Workbook p. 32&#10;Record yourself reading the dialogue"></textarea></div>
+        <div><label for="j-q">Questions for the teacher</label><textarea id="j-q" placeholder="When do I use er4 and when liang3?"></textarea></div>
+      </div>
+      <div class="err" id="j-err"></div>
+      <div class="row"><button class="btn primary" id="j-save">Save notes</button><button class="btn" id="j-cancel" hidden>Cancel edit</button></div>
+    </div>
+  </details>
+  <div class="row" style="justify-content:space-between"><h2 style="font-size:16px">All classes</h2><span class="small muted" id="j-count"></span></div>
+  <div class="stack" id="jlist"></div>
+  <details class="panel" id="g-wrap">
+    <summary>Grammar patterns</summary>
+    <div class="stack" style="margin-top:12px">
+  <details id="g-form-wrap">
+        <summary id="g-form-title">Add a grammar pattern</summary>
+        <div class="stack" style="margin-top:12px">
+          <div class="grid2">
+            <div><label for="g-pattern">Pattern</label><input id="g-pattern" class="han" placeholder="S + zai4 + place + V" autocomplete="off"></div>
+            <div><label for="g-lesson">Lesson</label><input id="g-lesson" placeholder="L4" autocomplete="off"></div>
+          </div>
+          <div><label for="g-expl">Explanation</label><textarea id="g-expl" placeholder="zài marks where an action happens. The place goes before the verb."></textarea></div>
+          <div><label for="g-examples">Examples (one per line)</label><textarea id="g-examples" class="han" placeholder="Wo3 zai4 tu2shu1guan3 xue2xi2."></textarea></div>
+          <div class="err" id="g-err"></div>
+          <div class="row"><button class="btn primary" id="g-save">Save pattern</button><button class="btn" id="g-cancel" hidden>Cancel edit</button></div>
+        </div>
+      </details>
+      <div class="stack" id="glist"></div>
+    </div>
+  </details>
+</section>
+
+<!-- QUIZ + GAMES -->
+<section id="v-play" class="stack" hidden></section>
+<section id="v-quiz" class="stack" hidden></section>
+<section id="v-tones" class="stack" hidden></section>
+<section id="v-match" class="stack" hidden></section>
+<section id="v-speed" class="stack" hidden></section>
+<section id="v-exam" class="stack" hidden></section>
+<section id="v-ask" class="stack" hidden></section>
+<section id="v-room" class="stack" hidden></section>
+<section id="v-recap" class="stack" hidden></section>
+</main>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ---------- sprites ---------- */
+const MOMO = {
+  idle: [".DD......DD.","DWWDDDDDDWWD","DOOOOOOOOOOD","DWWOOOOOOWWD","DOEHOOOOHEOD","DWEEWWWWEEWD","DPLWWNNWWLPD",".DWWWWWWWWD.","..DWWWWWWD..","...DDDDDD..."],
+  happy:[".DD......DD.","DWWDDDDDDWWD","DOOOOOOOOOOD","DWWOOOOOOWWD","DOOEOOOOEOOD","DWEWEWWEWEWD","DPLWWNNWWLPD",".DWWWMMWWWD.","..DWWWWWWD..","...DDDDDD..."],
+  sad:  [".DD......DD.","DWWDDDDDDWWD","DOOOOOOOOOOD","DWWOOOOOOWWD","DOEHOOOOHEOD","DWEEWWWWEEWD","DPTWWNNWWTPD",".DWWWWWWWWD.","..DWWWWWWD..","...DDDDDD..."],
+  sleep:[".DD......DD.","DWWDDDDDDWWD","DOOOOOOOOOOD","DWWOOOOOOWWD","DOOOOOOOOOOD","DWEEWWWWEEWD","DPLWWNNWWLPD",".DWWWWWWWWD.","..DWWWWWWD..","...DDDDDD..."],
+};
+const MC = {D:'#8A4B33',O:'#EE8A55',W:'#FFF8EE',E:'#3A2420',H:'#FFFFFF',N:'#5A3328',P:'#F7A8B8',L:'#D9845E',M:'#E27D7D',R:'#A85A3C',C:'#FFE9D2',T:'#9DC4F0'};
+const TAKIN = {
+  idle: ["HH........HH",".HH......HH.","..HDDDDDDH..",".DGGGGGGGGD.","DGGEGGGGEGGD","DGPGMMMMGPGD",".DGMMMMMMGD.",".DGMNMMNMGD.","..DMMMMMMD..","...DDDDDD..."],
+  happy:["HH........HH",".HH......HH.","..HDDDDDDH..",".DGGGGGGGGD.","DGEEGGGGEEGD","DGPGMMMMGPGD",".DGMMMMMMGD.",".DGMNMMNMGD.","..DMMMMMMD..","...DDDDDD..."],
+  sad:  ["HH........HH",".HH......HH.","..HDDDDDDH..",".DGGGGGGGGD.","DGGEGGGGEGGD","DGPTMMMMTPGD",".DGMMMMMMGD.",".DGMNMMNMGD.","..DMMMMMMD..","...DDDDDD..."],
+};
+TAKIN.sleep = TAKIN.happy;
+const DRUK = {
+  idle: [".Y..F..F..Y.",".YYFFFFFFYY.","FDDDDDDDDDDF","DWWWWWWWWWWD","DWEWWWWWWEWD","DWWWWWWWWWWD","DWPWWNNWWPWD","FDWWWWWWWWDF",".FDWWJJWWDF.","..FDDDDDDF.."],
+  happy:[".Y..F..F..Y.",".YYFFFFFFYY.","FDDDDDDDDDDF","DWWWWWWWWWWD","DEEWWWWWWEED","DWWWWWWWWWWD","DWPWWNNWWPWD","FDWWWWWWWWDF",".FDWWJJWWDF.","..FDDDDDDF.."],
+  sad:  [".Y..F..F..Y.",".YYFFFFFFYY.","FDDDDDDDDDDF","DWWWWWWWWWWD","DWEWWWWWWEWD","DWTWWWWWWTWD","DWPWWNNWWPWD","FDWWWWWWWWDF",".FDWWJJWWDF.","..FDDDDDDF.."],
+};
+DRUK.sleep = DRUK.happy;
+const BUDDIES = {
+  momo: {name:'Momo', full:'Momo the red panda', sprites:MOMO, colors:MC,
+    blurb:'A red panda from the forests of Bhutan and China. Ringed tail, tear marks, loves momos.', cheer:['Momo is proud of you!']},
+  takin:{name:'Norbu', full:'Norbu the takin', sprites:TAKIN,
+    colors:{D:'#6E3B2E',H:'#9C7058',G:'#FFD35C',M:'#E8A25E',E:'#3A2238',N:'#3A2238',P:'#FF9EC4',T:'#6EC3FF'},
+    blurb:"Bhutan's national animal. Slow, steady, and never forgets a word.", cheer:['Mmmeh! Strong like a takin!','Steady steps up the mountain!']},
+  druk: {name:'Druk', full:'Druk the Thunder Dragon', sprites:DRUK,
+    colors:{D:'#4A3049',W:'#FFFFFF',Y:'#FFD43B',F:'#FF9F5A',E:'#3A2238',N:'#3A2238',P:'#FF9EC4',J:'#6EC3FF',T:'#6EC3FF'},
+    blurb:'The dragon on the flag of Bhutan. Roars for perfect scores.', cheer:['ROAR! The Thunder Dragon approves!','Thunder and lightning, 太棒了!']},
+};
+function drawSprite(cv, key, mood, locked){
+  if(!cv) return;
+  const b = BUDDIES[key], g = b.sprites[mood]||b.sprites.idle, ctx = cv.getContext('2d'), px = cv.width/12;
+  ctx.clearRect(0,0,cv.width,cv.height);
+  g.forEach((row,y)=>[...row].forEach((c,x)=>{ if(b.colors[c]){ ctx.fillStyle = locked ? '#B8A9A3' : b.colors[c]; ctx.fillRect(x*px,y*px,px,px); } }));
+}
+function drawMomo(cv, mood){
+  if(!cv) return;
+  const key = currentBuddy();
+  drawSprite(cv, key, mood, false);
+  cv.setAttribute('aria-label', BUDDIES[key].full);
+  document.querySelectorAll('.dialog .name').forEach(n=>n.textContent=BUDDIES[key].name);
+  if(mood==='happy'){ cv.classList.remove('bounce'); void cv.offsetWidth; cv.classList.add('bounce'); }
+}
+const BODY_KEYS = {momo:{b:'O',p:'C',feet:'R',tail:true}, takin:{b:'G',p:'M'}, druk:{b:'W',p:'Y'}};
+const PET_TEXT = {chubby:'chubby and happy', content:'content', skinny:'getting skinny', starving:'very hungry'};
+function petState(){ const f=S.meta.fullness ?? 60; return f>=70?'chubby':f>=40?'content':f>=15?'skinny':'starving'; }
+const OUTFIT = {gho:['#B23A48','#3E5BA9'], kira:['#FF8FB8','#FFD43B','#5FE0A8','#6EC3FF','#FF9F5A']};
+function petPixels(key, mood){
+  const b=BUDDIES[key], head=b.sprites[mood]||b.sprites.idle, st=petState(), bk=BODY_KEYS[key], eq=S.meta.equip||{}, out=[];
+  const put=(x,y,c)=>{ const col = c && c[0]==='#' ? c : b.colors[c]; if(col) out.push([x,y,col]); };
+  const W={chubby:14,content:10,skinny:6,starving:4}[st];
+  const prof = st==='chubby' ? [.7,.9,1,1,1,.9,.7] : [.8,1,1,1,1,1,.8];
+  if(bk.tail){ /* ringed red panda tail, peeking out on the right */
+    const tx=Math.min(14, 8+Math.max(2,Math.round(W*prof[3]/2)*2)/2);
+    for(let i=0;i<6;i++){ put(tx,12+i,i%2?'R':'O'); put(tx+1,12+i,i%2?'R':'O'); }
+    put(tx+1,11,'O');
+  }
+  for(let r=0;r<7;r++){
+    const rw=Math.max(2,Math.round(W*prof[r]/2)*2), x0=8-rw/2;
+    for(let x=x0;x<x0+rw;x++){
+      const edge = x===x0 || x===x0+rw-1 || r===6;
+      const belly = !edge && W>=10 && r>=1 && r<=(bk.feet?4:5) && x>x0+1 && x<x0+rw-2;
+      let c = edge ? 'D' : (bk.feet && r===5) ? bk.feet : belly ? bk.p : bk.b;
+      if(!edge && eq.body==='gho') c = r===0 ? '#FFFFFF' : OUTFIT.gho[((x>>1)+(r>>1))%2];
+      if(!edge && eq.body==='kira') c = OUTFIT.kira[r%5];
+      put(x,12+r,c);
+    }
+    if(r===2){ put(x0-1,14,'D'); put(x0+rw,14,'D'); }
+  }
+  head.forEach((row,y)=>[...row].forEach((c,x)=>put(x+2,y+2,c)));
+  if(eq.head==='poppy') [[4,'#5B8DEF'],[5,'#4FBF6A'],[6,'#5B8DEF'],[9,'#5B8DEF'],[10,'#4FBF6A'],[11,'#5B8DEF']].forEach(([x,c])=>put(x,1,c));
+  if(eq.head==='partyhat'){ put(7,0,'#FFD43B'); put(8,0,'#FFD43B'); for(let x=6;x<=9;x++) put(x,1,'#FF4D6D'); }
+  if(eq.hand==='bow'){ [[14,13],[15,14],[15,15],[15,16],[14,17]].forEach(([x,y])=>put(x,y,'#8A5A3B')); [14,15,16].forEach(y=>put(14,y,'#FFFFFF')); }
+  return out;
+}
+function drawPet(cv, key, mood){
+  if(!cv) return;
+  const b=BUDDIES[key], ctx=cv.getContext('2d'), px=cv.width/16;
+  ctx.clearRect(0,0,cv.width,cv.height);
+  petPixels(key,mood).forEach(([x,y,c])=>{ ctx.fillStyle=c; ctx.fillRect(x*px,y*px,px,px); });
+  cv.setAttribute('aria-label', `${b.full}, ${PET_TEXT[petState()]}`);
+  document.querySelectorAll('.dialog .name').forEach(n=>n.textContent=b.name);
+  if(mood==='happy'){ cv.classList.remove('bounce'); void cv.offsetWidth; cv.classList.add('bounce'); }
+}
+const FLAG_COLORS = ['#B9C8EE','#FFFDF8','#EDB8C8','#C5DFC0','#F7D9A8'];
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ymd = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const today = () => ymd(new Date());
+const yesterday = () => ymd(new Date(Date.now()-864e5));
+const newId = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const lessonKey = l => { const m=String(l||'').match(/\d+/); return m?+m[0]:9999; };
+const normLesson = l => { l=String(l||'').trim(); return /^\d+$/.test(l) ? 'L'+l : l; };
+let toastT;
+function toast(msg, ms=2600){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms); }
+
+/* ---------- pinyin ---------- */
+const TONES = {a:'āáǎà',e:'ēéěè',i:'īíǐì',o:'ōóǒò',u:'ūúǔù','ü':'ǖǘǚǜ'};
+function markSyllable(s, t){
+  s = s.replace(/u:|v/g,'ü').replace(/U:|V/g,'Ü'); t=+t;
+  if(!t || t===5) return s;
+  const lo = s.toLowerCase(); let idx = -1;
+  if(lo.includes('a')) idx=lo.indexOf('a');
+  else if(lo.includes('e')) idx=lo.indexOf('e');
+  else if(lo.includes('ou')) idx=lo.indexOf('o');
+  else for(let i=lo.length-1;i>=0;i--) if('aeiouü'.includes(lo[i])){ idx=i; break; }
+  if(idx<0) return s;
+  let m = TONES[lo[idx]][t-1]; if(s[idx]!==lo[idx]) m=m.toUpperCase();
+  return s.slice(0,idx)+m+s.slice(idx+1);
+}
+const toPinyin = str => String(str||'').replace(/([a-zA-ZüÜ]+(?::)?)([0-5])/g, (_,s,t)=>markSyllable(s,t));
+const V = 'aeiouüāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ';
+const SYL = new RegExp(`(zh|ch|sh|[bpmfdtnlgkhjqxrzcsyw])?([${V}]+)(ng(?![${V}])|n(?![${V}])|r(?![${V}]))?`,'gi');
+function toneOf(syl){
+  for(const ch of syl.toLowerCase()) for(const k in TONES){ const i=TONES[k].indexOf(ch); if(i>=0) return i+1; }
+  return 0;
+}
+function colorPinyin(py){
+  return esc(py).replace(SYL, m => `<span class="tn${toneOf(m)}">${m}</span>`);
+}
+const STRIP = {}; for(const k in TONES) for(const ch of TONES[k]) STRIP[ch]=k;
+function stripTones(s){ return [...String(s)].map(c=>{ const lo=c.toLowerCase(), b=STRIP[lo]; return b ? (c!==lo ? b.toUpperCase() : b) : c; }).join(''); }
+const sylTones = py => (String(py).match(SYL)||[]).map(toneOf);
+function retone(py, tones){ let i=0; return String(py).replace(SYL, m=>markSyllable(stripTones(m), tones[i++]||0)); }
+function toneChoices(py){
+  const base=sylTones(py); if(!base.length) return null;
+  const set=new Set([py]); let tries=0;
+  while(set.size<4 && tries<80){ tries++; set.add(retone(py, base.map(()=>1+Math.floor(Math.random()*4)))); }
+  return set.size<2 ? null : shuffle([...set]);
+}
+const hasCJK = s => /[\u3400-\u9fff]/.test(s||'');
+const normPy = s => toPinyin(s).toLowerCase().replace(/[\s'’·-]/g,'');
+
+/* ---------- state + storage ---------- */
+const DEFAULT_META = {streak:0,bestStreak:0,lastDay:'',todayDate:'',todayCount:0,goal:20,unlocked:{},buddy:'momo',fresh:'',fullness:60,feedDate:'',newDate:'',newToday:0,snackToday:0,studyMode:'pinyin',hanziHints:true};
+let S = {words:{}, grammar:{}, journal:{}, meta:{...DEFAULT_META}};
+let col = null, loaded = false;
+const LS = 'blc-v1';
+function loadLocal(){ try{ const r=localStorage.getItem(LS); if(r){ const o=JSON.parse(r); S.words=o.words||{}; S.grammar=o.grammar||{}; S.journal=o.journal||{}; S.meta={...DEFAULT_META,...(o.meta||{})}; } }catch(e){} }
+function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify(S)); }catch(e){} }
+
+const pending = new Map(); let flushing = false;
+const LSP = 'blc-pending';
+function savePending(){ try{ localStorage.setItem(LSP, JSON.stringify([...pending])); }catch(e){} }
+function loadPending(){ try{ const r=localStorage.getItem(LSP); if(r) JSON.parse(r).forEach(([k,v])=>pending.set(k,v)); }catch(e){} }
+function queueWrite(id, data){ if(!window.claude) return; pending.set(id, data); savePending(); if(col && !flushing) flush(); }
+async function flush(){
+  flushing = true;
+  while(pending.size && col){
+    const [id, data] = pending.entries().next().value;
+    try{
+      if(data===null) await col.doc(id).delete(); else await col.doc(id).set(data);
+      if(pending.get(id)===data){ pending.delete(id); savePending(); }
+    }catch(e){
+      const code = e && e.code;
+      if(code==='resource_exhausted' || code==='unavailable'){ await sleep(1000+Math.random()*800); }
+      else { pending.delete(id); savePending(); if(code==='quota_exceeded') toast('Your storage is full. Delete a few words to keep saving.'); else console.warn('save failed', id, e); }
+    }
+    await sleep(40);
+  }
+  flushing = false;
+  if(col) setSync('cloud');
+}
+function putWord(w){ S.words[w.id]=w; saveLocal(); queueWrite('w_'+w.id, w); }
+function delWord(id){ delete S.words[id]; saveLocal(); queueWrite('w_'+id, null); }
+function putGrammar(g){ S.grammar[g.id]=g; saveLocal(); queueWrite('g_'+g.id, g); }
+function delGrammar(id){ delete S.grammar[id]; saveLocal(); queueWrite('g_'+id, null); }
+function putJournal(j){ S.journal[j.id]=j; saveLocal(); queueWrite('j_'+j.id, j); }
+function delJournal(id){ delete S.journal[id]; saveLocal(); queueWrite('j_'+id, null); }
+function putMeta(){ saveLocal(); queueWrite('meta', S.meta); }
+
+function goLocal(){ setSync('local'); loaded=true; refresh(); }
+let syncState = 'loading';
+function setSync(state){
+  if(state!=='offline') syncState = state;
+  if(!navigator.onLine) state = 'offline';
+  const el=$('#sync');
+  if(state==='offline'){ el.textContent='Offline · saved here'; el.title='No internet. Everything is saved on this device and syncs when you are back online.'; return; }
+  el.textContent = state==='cloud' ? (pending.size ? 'Syncing…' : 'Synced ✓') : state==='loading' ? 'Syncing…' : 'Saved on this device';
+  el.title = state==='cloud' ? 'Saved to your account, so it shows on every device you sign in on' : state==='loading' ? 'Connecting to your account' : 'Saved in this browser only';
+}
+
+async function initCloud(){
+  if(!window.claude || !window.claude.use){ goLocal(); return; }
+  setSync('loading');
+  let db=null, user=null;
+  try{ [db,user] = await Promise.all([claude.use('db'), claude.use('user')]); }catch(e){}
+  let uid = null;
+  if(db && user){ try{ uid = await user.id(); }catch(e){} }
+  if(!uid){ goLocal(); return; }
+  const c = db.collection('data/users/'+uid);
+  let first = true;
+  const timer = setTimeout(()=>{ if(first) goLocal(); }, 10000);
+  c.onSnapshot(snap => {
+    if(first && snap.metadata.fromCache && snap.empty) return;
+    clearTimeout(timer);
+    if(first){
+      first = false; col = c; setSync('cloud'); if(pending.size && !flushing) flush();
+      if(snap.empty){
+        Object.values(S.words).forEach(w=>queueWrite('w_'+w.id,w));
+        Object.values(S.grammar).forEach(g=>queueWrite('g_'+g.id,g));
+        Object.values(S.journal).forEach(j=>queueWrite('j_'+j.id,j));
+        if(S.meta.lastDay) queueWrite('meta', S.meta);
+        loaded = true; refresh(); return;
+      }
+    }
+    const words={}, grammar={}, journal={}; let meta=null;
+    snap.docs.forEach(d=>{ const v=d.data(); if(!v) return;
+      if(d.id.startsWith('w_')) words[d.id.slice(2)]=v; else if(d.id.startsWith('g_')) grammar[d.id.slice(2)]=v; else if(d.id.startsWith('j_')) journal[d.id.slice(2)]=v; else if(d.id==='meta') meta=v; });
+    for(const [pid,data] of pending){
+      const bag = pid.startsWith('w_') ? words : pid.startsWith('g_') ? grammar : pid.startsWith('j_') ? journal : null;
+      if(bag){ if(data) bag[pid.slice(2)]=data; else delete bag[pid.slice(2)]; } else if(pid==='meta' && data) meta=data;
+    }
+    S.words=words; S.grammar=grammar; S.journal=journal; if(meta) S.meta={...DEFAULT_META,...meta};
+    saveLocal(); loaded = true; refresh();
+  }, err => { clearTimeout(timer); col=null; goLocal(); });
+}
+
+/* ---------- categories ---------- */
+const CATS = [['Greetings','👋'],['Pronouns','👉'],['People','🧑'],['Family','👪'],['Numbers','🔢'],['Food and drink','🍜'],['Colors','🎨'],
+  ['Questions','❓'],['Verbs','🏃'],['Adjectives','✨'],['Particles','🧩'],['Places','🏔️'],['Time','⏰'],['School','🎒'],['Animals','🐼'],['Other','📦']];
+const CAT_ICON = Object.fromEntries(CATS);
+const catIcon = c => CAT_ICON[c] || '🏷️';
+const catOf = w => w.category || 'Other';
+function normCat(c){
+  c = String(c||'').trim(); if(!c) return '';
+  const hit = CATS.find(([n])=>n.toLowerCase()===c.toLowerCase() || (n==='Food and drink' && /^food/i.test(c)) || (n==='Colors' && /^colou?rs?$/i.test(c)));
+  return hit ? hit[0] : c[0].toUpperCase()+c.slice(1);
+}
+function categories(){
+  const present = new Set(Object.values(S.words).map(catOf));
+  const order = CATS.map(c=>c[0]);
+  return [...present].sort((a,b)=>{ const ia=order.indexOf(a), ib=order.indexOf(b); return (ia<0?99:ia)-(ib<0?99:ib) || a.localeCompare(b); });
+}
+const catOptions = (sel) => categories().map(c=>`<option value="${esc(c)}" ${c===sel?'selected':''}>${catIcon(c)} ${esc(c)}</option>`).join('');
+
+/* ---------- starter pack ---------- */
+const STARTER_WORDS = [
+ ['你','nǐ','you','L1','你是学生吗？','Pronouns'],['好','hǎo','good, well','L1','很好！','Adjectives'],['你好','nǐ hǎo','hello','L1','你好！我叫Momo。','Greetings'],
+ ['我','wǒ','I, me','L1','我是学生。','Pronouns'],['是','shì','to be (am/is/are)','L1','我是不丹人。','Verbs'],['不','bù','not, no','L1','我不是老师。','Particles'],
+ ['很','hěn','very','L1','我很好。','Particles'],['吗','ma','question particle (yes/no)','L1','你好吗？','Questions'],['呢','ne','and you? (follow-up particle)','L1','我很好，你呢？','Questions'],
+ ['也','yě','also, too','L1','我也是学生。','Particles'],['谢谢','xièxie','thank you','L1','谢谢你！','Greetings'],['再见','zàijiàn','goodbye','L1','老师，再见！','Greetings'],
+ ['他','tā','he, him','L2','他是我的朋友。','Pronouns'],['她','tā','she, her','L2','她是老师。','Pronouns'],['我们','wǒmen','we, us','L2','我们是朋友。','Pronouns'],
+ ['叫','jiào','to be called','L2','你叫什么名字？','Verbs'],['什么','shénme','what','L2','这是什么？','Questions'],['名字','míngzi','name','L2','我的名字是Momo。','People'],
+ ['谁','shéi','who','L2','他是谁？','Questions'],['哪','nǎ','which','L2','你是哪国人？','Questions'],['国','guó','country','L2','你是哪国人？','Places'],
+ ['人','rén','person','L2','她是中国人。','People'],['中国','Zhōngguó','China','L2','我在中国学习。','Places'],['不丹','Bùdān','Bhutan','L2','我是不丹人。','Places'],
+ ['学生','xuésheng','student','L3','我是大学生。','School'],['老师','lǎoshī','teacher','L3','王老师好！','School'],['朋友','péngyou','friend','L3','他是我的好朋友。','People'],
+ ['的','de','possessive particle (\'s)','L3','我的老师很好。','Particles'],['有','yǒu','to have','L3','我有一个朋友。','Verbs'],['学习','xuéxí','to study','L3','我学习中文。','Verbs'],
+ ['中文','Zhōngwén','Chinese language','L3','中文很有意思。','School'],['喝','hē','to drink','L3','你喝茶吗？','Food and drink'],['茶','chá','tea','L3','我喝茶。','Food and drink'],
+ ['一','yī','one','L3','一个人','Numbers'],['二','èr','two','L3','二月','Numbers'],['三','sān','three','L3','三个朋友','Numbers'],
+ ['四','sì','four','L4','四个学生','Numbers'],['五','wǔ','five','L4','五杯茶','Numbers'],['六','liù','six','L4','六个饺子','Numbers'],
+ ['七','qī','seven','L4','七天','Numbers'],['八','bā','eight','L4','八个人','Numbers'],['九','jiǔ','nine','L4','九点','Numbers'],['十','shí','ten','L4','十个朋友','Numbers'],
+ ['几','jǐ','how many (small number)','L4','你有几个朋友？','Questions'],['多少','duōshao','how many, how much','L4','多少钱？','Questions'],
+ ['哪儿','nǎr','where','L4','你去哪儿？','Questions'],['怎么','zěnme','how','L4','这个字怎么读？','Questions'],['为什么','wèishénme','why','L4','你为什么学中文？','Questions'],
+ ['吃','chī','to eat','L4','我吃饺子。','Food and drink'],['饺子','jiǎozi','dumplings','L4','饺子很好吃！','Food and drink'],['米饭','mǐfàn','cooked rice','L4','我吃米饭。','Food and drink'],
+ ['面条','miàntiáo','noodles','L4','我喜欢吃面条。','Food and drink'],['水','shuǐ','water','L4','我喝水。','Food and drink'],['咖啡','kāfēi','coffee','L4','你喝咖啡吗？','Food and drink'],
+ ['苹果','píngguǒ','apple','L4','这个苹果很红。','Food and drink'],['好吃','hǎochī','tasty, delicious','L4','妈妈做的饭很好吃。','Food and drink'],
+ ['颜色','yánsè','color','L4','你喜欢什么颜色？','Colors'],['红色','hóngsè','red','L4','我喜欢红色。','Colors'],['蓝色','lánsè','blue','L4','天是蓝色的。','Colors'],
+ ['绿色','lǜsè','green','L4','不丹有很多绿色的山。','Colors'],['黄色','huángsè','yellow','L4','不丹国旗有黄色。','Colors'],['白色','báisè','white','L4','龙是白色的。','Colors'],
+ ['黑色','hēisè','black','L4','熊猫是黑色和白色的。','Colors'],['橙色','chéngsè','orange (color)','L4','小熊猫是橙色的。','Colors'],
+];
+const STARTER_GRAMMAR = [
+ ['S + 是 + N','是 links two nouns: "A is B". Do not use 是 with adjectives (say 我很好, not 我是好).',['我是学生。','她是不丹人。'],'L1',
+  'S + shì + N','shì links two nouns: "A is B". Don\'t use shì with adjectives (say Wǒ hěn hǎo, not Wǒ shì hǎo).',['Wǒ shì xuésheng.','Tā shì Bùdān rén.']],
+ ['S + 很 + Adj','Adjectives act like verbs. 很 usually just links subject and adjective, so it often means less than "very".',['我很好。','中文很有意思。'],'L1',
+  'S + hěn + Adj','Adjectives work like verbs. hěn usually just links the subject and the adjective, so it often means less than "very".',['Wǒ hěn hǎo.','Zhōngwén hěn yǒu yìsi.']],
+ ['Statement + 吗？','Add 吗 to the end of any statement to make a yes/no question. The word order stays the same.',['你是老师吗？','你喝茶吗？'],'L1',
+  'Statement + ma?','Add ma to the end of any statement to make a yes/no question. The word order stays the same.',['Nǐ shì lǎoshī ma?','Nǐ hē chá ma?']],
+ ['S + 不 + V / Adj','不 negates verbs and adjectives. Before a 4th tone it changes to bú (不是 = bú shì).',['我不是中国人。','他不喝茶。'],'L1',
+  'S + bù + V / Adj','bù makes verbs and adjectives negative. Before a 4th tone it changes to bú (bú shì).',['Wǒ bú shì Zhōngguó rén.','Tā bù hē chá.']],
+ ['S + 也 + V','也 (also) always goes before the verb, never at the start of the sentence.',['我也是学生。','她也喝茶。'],'L1',
+  'S + yě + V','yě (also) always goes before the verb, never at the start of the sentence.',['Wǒ yě shì xuésheng.','Tā yě hē chá.']],
+ ['…，你呢？','呢 bounces the question back: "And you?"',['我很好，你呢？','我是不丹人，你呢？'],'L1',
+  '…, nǐ ne?','ne bounces the question back: "And you?"',['Wǒ hěn hǎo, nǐ ne?','Wǒ shì Bùdān rén, nǐ ne?']],
+];
+const gramPy = g => ({ppattern:g[4], pexpl:g[5], pexamples:g[6]});
+function backfillGrammarPinyin(){
+  if(S.meta.gramPy) return;
+  const map=Object.fromEntries(STARTER_GRAMMAR.map(g=>[g[0],g]));
+  Object.values(S.grammar).forEach(g=>{ if(!g.ppattern && map[g.pattern]) putGrammar({...g, ...gramPy(map[g.pattern])}); });
+  S.meta.gramPy=true; putMeta();
+}
+function addStarter(){
+  const have = new Set(Object.values(S.words).map(w=>w.hanzi));
+  let n=0;
+  STARTER_WORDS.forEach(([hanzi,pinyin,meaning,lesson,example,category])=>{
+    if(have.has(hanzi)) return;
+    putWord(blankWord({hanzi,pinyin,meaning,lesson,example,category})); n++;
+  });
+  const haveG = new Set(Object.values(S.grammar).map(g=>g.pattern));
+  STARTER_GRAMMAR.forEach(g=>{ const [pattern,expl,examples,lesson]=g; if(!haveG.has(pattern)) putGrammar({id:newId(),pattern,expl,examples,lesson,created:Date.now(),...gramPy(g)}); });
+  toast(n ? `Added ${n} starter words` : 'Starter words are already in your bank');
+  refresh();
+}
+function backfillCategories(){
+  if(S.meta.catMigrated) return;
+  const map = Object.fromEntries(STARTER_WORDS.map(r=>[r[0],r[5]]));
+  Object.values(S.words).forEach(w=>{ if(!w.category && map[w.hanzi]) putWord({...w, category:map[w.hanzi]}); });
+  S.meta.catMigrated = true; putMeta();
+}
+function blankWord(f){
+  return {id:newId(), hanzi:f.hanzi, pinyin:f.pinyin, meaning:f.meaning, lesson:normLesson(f.lesson), category:normCat(f.category), example:f.example||'', dz:f.dz||'', notes:f.notes||'',
+    created:Date.now(), due:Date.now(), ef:2.5, interval:0, reps:0, seen:0, correct:0, lapses:0};
+}
+
+/* ---------- SRS (SM-2, beginner-friendly) ---------- */
+function schedule(w, rating){ // rating 1 again, 2 hard, 3 good, 4 easy
+  const q = {1:1,2:3,3:4,4:5}[rating], was = isLearned(w);
+  w.seen=(w.seen||0)+1;
+  if(q<3){ w.reps=0; w.interval=0; w.lapses=(w.lapses||0)+1; w.due=Date.now()+60e3; }
+  else{
+    w.correct=(w.correct||0)+1; w.reps=(w.reps||0)+1;
+    if(w.reps===1) w.interval = q===5 ? 2 : 1;
+    else if(w.reps===2) w.interval = q===3 ? 2 : q===5 ? 5 : 3;
+    else w.interval = Math.max(1, Math.round(w.interval * w.ef * (q===3?0.8:q===5?1.3:1)));
+    w.ef = Math.max(1.3, (w.ef||2.5) + (0.1-(5-q)*(0.08+(5-q)*0.02)));
+    const d = new Date(); d.setHours(4,0,0,0); w.due = d.getTime() + w.interval*864e5;
+  }
+  const fresh = !was && q>=3; if(fresh){ w.learned=true; w.learnedAt=Date.now(); }
+  putWord(w); return fresh;
+}
+function bumpDay(){
+  const m=S.meta, t=today();
+  if(m.todayDate!==t){ m.streak = m.lastDay===yesterday() ? (m.streak||0)+1 : 1; m.todayDate=t; m.todayCount=0; }
+  m.bestStreak=Math.max(m.bestStreak||0, m.streak||0);
+  m.lastDay=t; m.todayCount=(m.todayCount||0)+1; logDay('r'); putMeta(); checkUnlocks();
+}
+const liveStreak = () => (S.meta.lastDay===today()||S.meta.lastDay===yesterday()) ? (S.meta.streak||0) : 0;
+const totalAnswers = () => Object.values(S.words).reduce((n,w)=>n+(w.seen||0),0);
+const bestStreak = () => Math.max(S.meta.bestStreak||0, liveStreak());
+const wellKnown = () => Object.values(S.words).filter(w=>(w.interval||0)>=7).length;
+const UNLOCKS = {
+  takin:{test:()=>totalAnswers()>=50 || bestStreak()>=3,
+    hint:()=>`Answer 50 cards (${Math.min(50,totalAnswers())}/50) or study 3 days in a row (best ${Math.min(3,bestStreak())}/3).`},
+  druk: {test:()=>bestStreak()>=7 || wellKnown()>=20,
+    hint:()=>`Study 7 days in a row (best ${Math.min(7,bestStreak())}/7) or get 20 words well known (${Math.min(20,wellKnown())}/20).`},
+};
+const isUnlocked = k => k==='momo' || !!(S.meta.unlocked||{})[k];
+const currentBuddy = () => BUDDIES[S.meta.buddy] && isUnlocked(S.meta.buddy) ? S.meta.buddy : 'momo';
+function checkUnlocks(){
+  let got = null;
+  for(const k in UNLOCKS) if(!isUnlocked(k) && UNLOCKS[k].test()){ S.meta.unlocked={...(S.meta.unlocked||{}),[k]:true}; S.meta.fresh=k; got=k; }
+  if(got){ putMeta(); toast(`${BUDDIES[got].full} joined you! Pick your study buddy on the home screen.`, 5000); }
+}
+const pinyinMode = () => (S.meta.studyMode||'pinyin')==='pinyin';
+const hanziHints = () => S.meta.hanziHints!==false;
+const wordKey = w => w.hanzi ? 'h:'+w.hanzi : 'p:'+normPy(w.pinyin)+'|'+String(w.meaning||'').trim().toLowerCase();
+function parseLine(line){
+  const p=line.split(/\s*[|\t]\s*/).map(x=>x.trim());
+  if(hasCJK(p[0])){ if(p.length<3||!p[1]||!p[2]) return null; return {hanzi:p[0], pinyin:toPinyin(p[1]), meaning:p[2], rest:p.slice(3)}; }
+  if(p.length<2||!p[0]||!p[1]) return null; return {hanzi:'', pinyin:toPinyin(p[0]), meaning:p[1], rest:p.slice(2)};
+}
+const isLearned = w => !!w.learned || (w.correct||0)>0;
+const dayNum = s => { const [y,m,d]=s.split('-').map(Number); return Math.round(new Date(y,m-1,d).getTime()/864e5); };
+function rollPetDay(){
+  const m=S.meta, t=today(); let changed=false;
+  if(!m.feedDate){ m.feedDate=t; changed=true; }
+  else if(m.feedDate!==t){ const days=Math.max(0, dayNum(t)-dayNum(m.feedDate)); m.fullness=Math.max(0,(m.fullness??60)-30*days); m.feedDate=t; changed=true; }
+  if(m.newDate!==t){ m.newDate=t; m.newToday=0; m.snackToday=0; changed=true; }
+  return changed;
+}
+function feed(kind){
+  rollPetDay(); const m=S.meta;
+  if(kind==='new'){ logDay('n'); m.newToday=(m.newToday||0)+1; m.fullness=Math.min(100,(m.fullness??60)+10); }
+  else if(kind==='treat'){ m.fullness=Math.min(100,(m.fullness??60)+10); }
+  else if((m.snackToday||0)<10){ m.snackToday=(m.snackToday||0)+1; m.fullness=Math.min(100,(m.fullness??60)+1); }
+  putMeta();
+}
+function logDay(k){
+  const t=today(), L={...(S.meta.log||{})}; L[t]={r:0,n:0,...(L[t]||{})}; L[t][k]++;
+  const keys=Object.keys(L).sort(); while(keys.length>45) delete L[keys.shift()];
+  S.meta.log=L;
+}
+function earn(n){ if(!n) return; S.meta.coins=(S.meta.coins||0)+n; putMeta(); renderCoins(); }
+function renderCoins(){ const el=$('#coins'); if(el) el.textContent='🪙 Nu '+(S.meta.coins||0); }
+const newToday = () => S.meta.newDate===today() ? (S.meta.newToday||0) : 0;
+function fedMsg(){
+  const name=BUDDIES[currentBuddy()].name, n=newToday();
+  return n<=3 ? `Yum! ${name} ate a momo 🥟 New words today: ${n}/3.${n===3?' Tummy goal reached!':''}` : `Yum! Extra momo for ${name} 🥟 (${n} new words today)`;
+}
+const cheer = () => pick([...CHEER, ...BUDDIES[currentBuddy()].cheer]);
+const todayCount = () => S.meta.todayDate===today() ? (S.meta.todayCount||0) : 0;
+const dueWords = () => { const now=Date.now(); return Object.values(S.words).filter(w=>w.due<=now).sort((a,b)=>a.due-b.due); };
+function lessons(){
+  const map={}; Object.values(S.words).forEach(w=>{ const l=w.lesson||'?'; (map[l]=map[l]||[]).push(w); });
+  return Object.keys(map).sort((a,b)=>lessonKey(a)-lessonKey(b)||a.localeCompare(b)).map(l=>({name:l, words:map[l], raised: map[l].every(w=>(w.reps||0)>=1)}));
+}
+function statusChip(w){
+  if(!w.seen) return '<span class="chip new">new</span>';
+  if(w.due<=Date.now()) return '<span class="chip due">due</span>';
+  const d=Math.max(1,Math.round((w.due-Date.now())/864e5)); return `<span class="chip">in ${d}d</span>`;
+}
+
+/* ---------- speech ---------- */
+const canSpeak = 'speechSynthesis' in window;
+function speak(text){
+  if(!canSpeak){ toast("Audio isn't available in this browser"); return; }
+  try{ const u=new SpeechSynthesisUtterance(text); u.lang='zh-CN'; u.rate=.85;
+    const v=speechSynthesis.getVoices().find(v=>/zh[-_](CN|Hans)/i.test(v.lang)); if(v) u.voice=v;
+    speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){ toast("Audio isn't available in this browser"); }
+}
+const speakBtn = t => canSpeak && t ? `<button class="btn sm icon-btn" data-speak="${esc(t)}" aria-label="Play ${esc(t)}">🔊</button>` : '';
+
+/* ---------- views ---------- */
+let view = 'home';
+const VIEWS = ['home','review','words','journal','play','quiz','tones','match','speed','exam','ask','room','recap'];
+const NAV_OF = {quiz:'play',tones:'play',match:'play',speed:'play',exam:'play',ask:'play',room:'home',recap:'home'};
+function show(v){
+  if(v==='grammar') v='journal';
+  if(view==='speed' && v!=='speed') stopSpeed();
+  if(view==='match' && v!=='match') stopMatch();
+  view = v;
+  VIEWS.forEach(k=>{ $('#v-'+k).hidden = k!==v; });
+  document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-current', b.dataset.view===(NAV_OF[v]||v) ? 'page' : 'false'));
+  if(v==='home') renderHome();
+  if(v==='review' && !R) renderReviewStart();
+  if(v==='words') renderWords();
+  if(v==='journal') renderJournal();
+  if(v==='play') renderPlay();
+  if(v==='quiz' && !Q) renderQuizSetup();
+  if(v==='tones' && !TP) renderTonesHome();
+  if(v==='match' && !MM) renderMatchHome();
+  if(v==='speed' && !SP) renderSpeedHome();
+  if(v==='exam' && !EX) renderExamSetup();
+  if(v==='ask') renderAsk();
+  if(v==='room') renderRoom();
+  if(v==='recap') renderRecap();
+  window.scrollTo(0,0);
+}
+function refresh(){
+  renderFlags(); renderCoins();
+  if(view==='home') renderHome();
+  if(view==='words') renderWords();
+  if(view==='journal') renderJournal();
+  if(view==='play') renderPlay();
+  if(view==='review' && !R) renderReviewStart();
+  if(view==='quiz' && !Q) renderQuizSetup();
+  if(view==='room') renderRoom();
+  if(view==='recap') renderRecap();
+}
+
+function renderFlags(){
+  const ls = lessons(), el=$('#flags');
+  if(!ls.length){ el.innerHTML = FLAG_COLORS.map(()=>'<span class="flag off"></span>').join(''); return; }
+  el.innerHTML = ls.map((l,i)=>`<span class="flag ${l.raised?'':'off'}" style="background:${FLAG_COLORS[i%5]}" title="${esc(l.name)}: ${l.raised?'flag raised!':'review every word once to raise this flag'}"></span>`).join('');
+}
+
+function renderHome(){
+  if(loaded){ backfillCategories(); backfillGrammarPinyin(); checkUnlocks(); if(rollPetDay()) putMeta();
+    if(S.meta.coins==null){ S.meta.coins = 10 + 2*Object.values(S.words).filter(isLearned).length; putMeta(); toast(`You got ${S.meta.coins} Nu to spend in Momo's room 🪙`, 4000); } }
+  renderCoins();
+  { const ev=$('#home-event'); ev.hidden=!isLosar(); if(isLosar()) ev.innerHTML = `<h3>🎉 Losar and Chinese New Year</h3><p style="margin:6px 0 10px">New year season in Bhutan and China! A limited party hat is in Momo's shop until the end of February.</p><button class="btn sm" data-go="room">Visit the shop</button>`; }
+  const words=Object.values(S.words), due=dueWords().length, n=words.length, tc=todayCount(), goal=S.meta.goal||20;
+  const learned = words.filter(w=>(w.interval||0)>=7).length;
+  let msg, mood='idle';
+  if(!loaded && !n) msg='你好! Loading your words…';
+  else if(!n){ msg="你好! I'm Momo, your study buddy from the mountains. Your word bank is empty. Add the starter pack or your own words and we'll learn together."; }
+  else {
+    const name=BUDDIES[currentBuddy()].name, st=petState(), nt=newToday(), left=Math.max(0,3-nt);
+    const unlearned=words.filter(w=>!isLearned(w)).length;
+    const food = nt>=3 ? `${name} ate ${nt} momos today 🥟 and feels ${PET_TEXT[st]}.`
+      : st==='starving' ? `${name} is very hungry! Learn ${left} new word${left>1?'s':''} to feed ${name}.`
+      : `${name} is ${PET_TEXT[st]}. Learn ${left} more new word${left>1?'s':''} today to feed ${name}.`;
+    const tip = nt<3 && !unlearned ? ' You have no new words left, so add a few to your bank first!' : '';
+    msg = food + tip + (due ? ` <b>${due}</b> card${due>1?'s':''} waiting. 加油!` : ' No reviews due right now.');
+    mood = st==='starving'||st==='skinny' ? 'sad' : st==='chubby' ? 'happy' : due ? 'idle' : 'sleep';
+  }
+  $('#home-msg').innerHTML = msg + (mood==='sleep' ? ' <span class="zzz">z z z</span>' : '');
+  drawPet($('#momo-home'), currentBuddy(), mood);
+  $('#stats').innerHTML = `
+    <div class="stat"><div class="k">Due today</div><div class="v">${due}</div></div>
+    <div class="stat"><div class="k">Words</div><div class="v">${n}</div><div class="small muted">${learned} well known</div></div>
+    <div class="stat"><div class="k">Streak</div><div class="v">${liveStreak()}d</div></div>
+    <div class="stat"><div class="k">Fed today</div><div class="v">${newToday()}/3</div><div class="meter food" aria-hidden="true">${[0,1,2].map(i=>`<i class="${newToday()>i?'on':''}"></i>`).join('')}</div><div class="small muted">new words = momos</div></div>
+    <div class="stat"><div class="k">Tummy</div><div class="v">${Math.round(S.meta.fullness??60)}%</div><div class="meter tummy" aria-hidden="true">${Array.from({length:10},(_,i)=>`<i class="${(S.meta.fullness??60)/10>i?'on':''}"></i>`).join('')}</div><div class="small muted">${PET_TEXT[petState()]}</div></div>`;
+  $('#home-actions').innerHTML = !n
+    ? `<button class="btn primary big" data-act="starter">Add starter pack</button><button class="btn big" data-go="words">Add my own words</button>`
+    : `<button class="btn primary big" data-go="review">${due?'Start review':'Practice anyway'}</button><button class="btn peach big" data-go="play">Play games</button><button class="btn big" data-go="room">🏠 ${esc(BUDDIES[currentBuddy()].name)}'s room</button>`;
+  { const pm=pinyinMode(), now=new Date(), days=Math.ceil((new Date(now.getFullYear()+1,0,1)-now)/864e5);
+    $('#home-mode').innerHTML = `<h3>Study mode</h3>
+      <p class="small muted" style="margin:6px 0 10px">${pm?'Pinyin first: cards and quizzes use pinyin, and hanzi is optional.':'Hanzi and pinyin: cards show characters first.'} Your words and progress stay the same when you switch.</p>
+      <div class="row"><button class="btn ${pm?'primary':''}" data-studymode="pinyin" aria-pressed="${pm}">Pinyin first · Chinese 1</button>
+        <button class="btn ${pm?'':'primary'}" data-studymode="hanzi" aria-pressed="${!pm}">Hanzi + pinyin · Chinese 2</button></div>
+      ${pm?`<label class="row" style="margin-top:12px;font-size:14px;color:var(--ink)"><input type="checkbox" id="hint-toggle" style="width:auto" ${hanziHints()?'checked':''}> Show hanzi as a small preview</label>`:''}
+      ${pm&&now.getMonth()>=6?`<p class="small" style="margin:8px 0 0">Chinese 2 starts in January, about ${days} days away. Peeking at hanzi now makes it easier later.</p>`:''}`; }
+  $('#home-class').innerHTML = `<h3>Saturday class</h3>${classBanner()}`;
+  $('#home-friends').innerHTML = `<h3>Mountain friends</h3>
+    <p class="small muted" style="margin:6px 0 12px">Pick who studies with you. Keep learning to meet new friends.</p>
+    <div class="friends">${['momo','takin','druk'].map(k=>{ const b=BUDDIES[k], un=isUnlocked(k), cur=currentBuddy()===k;
+      return `<div class="friend ${cur?'cur':''}"><canvas class="momo" width="120" height="100" data-sprite="${k}" data-locked="${un?'':'1'}" aria-label="${un?esc(b.full):'Locked friend'}"></canvas>
+        <div class="fi"><b>${un?esc(b.full):'??? (locked)'}</b>${un&&S.meta.fresh===k?' <span class="chip new">new!</span>':''}
+          <div class="small muted">${un?esc(b.blurb):esc(UNLOCKS[k].hint())}</div>
+          <div style="margin-top:6px">${un?(cur?'<span class="chip due">Studying with you</span>':`<button class="btn sm" data-buddy="${k}">Study with ${esc(b.name)}</button>`):''}</div></div></div>`; }).join('')}</div>`;
+  document.querySelectorAll('canvas[data-sprite]').forEach(c=>drawSprite(c, c.dataset.sprite, 'idle', !!c.dataset.locked));
+  const ls=lessons();
+  $('#home-lessons').innerHTML = `<h3>Mountain trail</h3>` + (ls.length
+    ? `<p class="small muted" style="margin:6px 0 12px">Each lesson raises a prayer flag once you've reviewed all of its words.</p><div class="wlist">${ls.map((l,i)=>{
+        const done=l.words.filter(w=>(w.reps||0)>=1).length;
+        return `<div class="wrow" style="grid-template-columns:auto minmax(0,1fr) auto"><span class="flag ${l.raised?'':'off'}" style="background:${FLAG_COLORS[i%5]}"></span>
+          <div><b>${esc(l.name)}</b> <span class="small muted">${done}/${l.words.length} reviewed</span><div class="progress" style="margin-top:4px"><div style="width:${Math.round(done/l.words.length*100)}%"></div></div></div>
+          <button class="btn sm" data-quiz-lesson="${esc(l.name)}">Quiz</button></div>`; }).join('')}</div>`
+    : `<p class="small muted" style="margin:6px 0 0">Your lessons will show up here as a trail up the mountain, with Tiger's Nest at the top.</p>`);
+}
+
+/* ---------- review ---------- */
+let R = null;
+const CHEER = ['很好!','太棒了!','Bullseye, like archery!','加油!','You remembered!'];
+const COMFORT = ['没关系 (no worries). It comes back in a minute.','I believe in you!','Tricky one. We will see it again soon.'];
+function renderReviewStart(){
+  const due=dueWords().length, n=Object.keys(S.words).length;
+  $('#v-review').innerHTML = `
+    <div class="momo-scene"><canvas class="momo big" id="momo-r" width="120" height="100"></canvas>
+    <div class="dialog"><span class="name">Momo</span>${!n ? 'No words yet. Add some first!' : due ? `<b>${due}</b> word${due>1?'s':''} due. Tap the card to flip it, then rate how well you knew it.` : 'Nothing due right now. Practice 10 random words if you like.'}</div></div>
+    <div class="row">${n ? `<button class="btn primary big" data-act="${due?'review':'practice'}">${due?'Start review':'Practice 10 words'}</button>` : `<button class="btn primary big" data-go="words">Add words</button>`}</div>
+    ${n ? `<div class="panel stack"><h3>Practice a category</h3><div class="row"><div style="flex:1;min-width:180px"><label for="r-cat">Category</label><select id="r-cat">${catOptions('')}</select></div>
+      <button class="btn mint" data-act="practice-cat" style="align-self:flex-end">Practice</button></div>
+      <p class="small muted" style="margin:0">Up to 20 cards from one category, like all your colors or all your numbers.</p></div>` : ''}
+    <p class="small muted">On a keyboard: space flips the card, 1 to 4 rates it.</p>`;
+  drawMomo($('#momo-r'), due ? 'idle' : 'sleep');
+}
+function startReview(practice, cat, only){
+  const ids = only ? shuffle(only) : cat ? shuffle(Object.values(S.words).filter(w=>catOf(w)===cat).map(w=>w.id)).slice(0,20)
+    : practice ? shuffle(Object.keys(S.words)).slice(0,10) : dueWords().map(w=>w.id);
+  if(!ids.length){ renderReviewStart(); return; }
+  R = {queue:ids, total:ids.length, done:0, flipped:false, mood:'idle', msg:''};
+  show('review'); renderCard();
+}
+function renderCard(){
+  if(!R) return;
+  while(R.queue.length && !S.words[R.queue[0]]) R.queue.shift();
+  if(!R.queue.length){
+    const total=R.total; R=null;
+    $('#v-review').innerHTML = `<div class="momo-scene"><canvas class="momo big" id="momo-r" width="120" height="100"></canvas>
+      <div class="dialog"><span class="name">Momo</span>Session complete! You reviewed ${total} card${total>1?'s':''}. 太棒了!</div></div>
+      <div class="row"><button class="btn primary" data-go="home">Back home</button><button class="btn peach" data-go="quiz">Try a quiz</button></div>`;
+    drawMomo($('#momo-r'),'happy'); refresh(); return;
+  }
+  const w=S.words[R.queue[0]], usePy = pinyinMode() || !w.hanzi;
+  $('#v-review').innerHTML = `
+    <div class="row" style="justify-content:space-between"><span class="small muted">${R.done} done · ${R.queue.length} left</span><button class="btn sm" data-act="end-review">End session</button></div>
+    <div class="progress"><div style="width:${Math.round(R.done/(R.done+R.queue.length)*100)}%"></div></div>
+    <div class="card" id="card" role="button" tabindex="0" aria-label="Flashcard, tap to flip">
+      ${usePy ? `<div class="py" style="font-size:clamp(36px,10vw,60px);line-height:1.1">${colorPinyin(w.pinyin)}</div>
+        ${pinyinMode()&&hanziHints()&&w.hanzi?`<div class="han muted" style="font-size:30px">${esc(w.hanzi)}</div>`:''}
+        ${R.flipped ? '' : `<div>${speakBtn(w.hanzi)}</div>`}`
+        : `<div class="h">${esc(w.hanzi)}</div>`}
+      ${R.flipped ? `${usePy?'':`<div class="py">${colorPinyin(w.pinyin)}</div>`}<div style="font-size:${usePy?24:20}px;font-weight:${usePy?800:400}">${esc(w.meaning)}</div>
+        ${w.dz?`<div class="small muted">Dzongkha: ${esc(w.dz)}</div>`:''}
+        ${w.example&&(!usePy||hanziHints())?`<div class="ex han">${esc(w.example)}</div>`:''}${w.notes?`<div class="small muted">${esc(w.notes)}</div>`:''}
+        <div>${speakBtn(w.hanzi)}</div>` : `<div class="small muted">tap to flip</div>`}
+    </div>
+    ${R.flipped ? `<div class="rate">
+      <button class="btn rose" data-rate="1">Again<span>1 · forgot</span></button>
+      <button class="btn peach" data-rate="2">Hard<span>2</span></button>
+      <button class="btn mint" data-rate="3">Good<span>3</span></button>
+      <button class="btn sky" data-rate="4">Easy<span>4</span></button></div>` : ''}
+    <div class="momo-scene"><canvas class="momo" id="momo-r" width="120" height="100"></canvas>
+      <div class="dialog"><span class="name">Momo</span>${R.msg || 'What does it mean? Say it out loud first!'}</div></div>`;
+  drawMomo($('#momo-r'), R.mood);
+}
+function flip(){ if(!R||R.flipped) return; R.flipped=true; R.mood='idle'; R.msg='How well did you know it?'; renderCard(); }
+function rate(r){
+  if(!R||!R.flipped) return;
+  const id=R.queue.shift(), w=S.words[id]; if(!w){ renderCard(); return; }
+  const fresh = schedule(w, r); bumpDay(); feed(fresh?'new':'snack'); earn(fresh?3:(r>1?1:0));
+  if(r===1){ R.queue.push(id); R.mood='sad'; R.msg=pick(COMFORT); } else { R.done++; R.mood='happy'; R.msg= fresh ? fedMsg() : cheer(); }
+  R.flipped=false; renderCard(); renderFlags();
+}
+
+/* ---------- words ---------- */
+let editingWord = null;
+let wCat = '';
+let wGroup = (()=>{ try{ return localStorage.getItem('blc-group')||'category'; }catch(e){ return 'category'; } })();
+const openGroups = new Set(), openItems = new Set();
+function wordItem(w, pm, hint){
+  const usePy = pm || !w.hanzi;
+  const head = usePy ? `<span class="py wpy">${colorPinyin(w.pinyin)}</span>${pm&&hint&&w.hanzi?`<span class="han muted whz">${esc(w.hanzi)}</span>`:''}`
+                     : `<span class="han wh">${esc(w.hanzi)}</span><span class="py">${colorPinyin(w.pinyin)}</span>`;
+  const dot = !w.seen ? 'new' : w.due<=Date.now() ? 'due' : 'ok';
+  return `<details class="witem" data-w="${w.id}" ${openItems.has(w.id)?'open':''}><summary>${head}<span class="wmean">${esc(w.meaning)}</span><span class="dot ${dot}" title="${dot==='new'?'New':dot==='due'?'Due for review':'Reviewed'}"></span></summary>
+    <div class="wmore">
+      <div class="row">${statusChip(w)}<span class="chip cat">${catIcon(catOf(w))} ${esc(catOf(w))}</span>${w.lesson?`<span class="chip">${esc(w.lesson)}</span>`:''}${w.classDate?`<span class="chip" title="From class">📓 ${esc(fmtDate(w.classDate))}</span>`:''}</div>
+      ${w.dz?`<div class="small">Dzongkha: ${esc(w.dz)}</div>`:''}${w.example?`<div class="han">${esc(w.example)}</div>`:''}${w.notes?`<div class="small muted">${esc(w.notes)}</div>`:''}
+      <div class="row">${speakBtn(w.hanzi)}<button class="btn sm" data-edit="${w.id}">Edit</button><button class="btn sm" data-del="${w.id}">Delete</button></div>
+    </div></details>`;
+}
+function renderWords(){
+  const pm=pinyinMode(), hint=hanziHints(), all=Object.values(S.words);
+  const noHanzi = all.filter(w=>!w.hanzi).length;
+  if(wCat==='__nohanzi' && (pm || !noHanzi)) wCat='';
+  $('label[for=f-hanzi]').textContent = pm ? 'Hanzi (optional until Chinese 2)' : 'Hanzi';
+  $('#cat-list').innerHTML = [...new Set([...CATS.map(c=>c[0]), ...categories()])].map(c=>`<option value="${esc(c)}"></option>`).join('');
+  document.querySelectorAll('[data-group]').forEach(b=>{ const on=b.dataset.group===wGroup; b.setAttribute('aria-pressed',on); b.classList.toggle('primary',on); });
+  $('#w-extra').innerHTML = (noHanzi && window.claude ? `<button class="btn sm mint" data-act="fill-hanzi" title="Momo looks up the characters so these words get audio">✨ Fill hanzi · ${noHanzi}</button> ` : '')
+    + (!pm && noHanzi ? `<button class="btn sm ${wCat?'primary':'peach'}" data-cat="${wCat?'':'__nohanzi'}">✏️ Needs hanzi · ${noHanzi}</button>` : '');
+  const q=$('#w-search').value.trim().toLowerCase(), qn=normPy(q);
+  const list = all.filter(w=>(wCat!=='__nohanzi' || !w.hanzi) &&
+    (!q || (w.hanzi||'').includes(q) || w.meaning.toLowerCase().includes(q) || catOf(w).toLowerCase().includes(q) || normPy(w.pinyin).includes(qn) || stripTones(w.pinyin).toLowerCase().includes(q)));
+  $('#w-count').innerHTML = (q ? `${list.length} match${list.length===1?'':'es'}` : `${all.length} word${all.length===1?'':'s'}`) +
+    (all.length ? ` <span class="legend"><span class="dot new"></span>new <span class="dot due"></span>due <span class="dot ok"></span>reviewed</span>` : '');
+  if(!all.length){
+    $('#wgroups').innerHTML = `<div class="panel"><p style="margin:0">Your word bank is empty. Open <b>Add a word</b> above, or load the starter pack.</p>
+      <div class="row" style="margin-top:10px"><button class="btn primary" data-act="starter">Add starter pack</button></div></div>`; return;
+  }
+  if(!list.length){ $('#wgroups').innerHTML = `<div class="panel"><p style="margin:0">No words match your search.</p></div>`; return; }
+  const key = w => wGroup==='lesson' ? (w.lesson||'No lesson') : catOf(w);
+  const groups = {}; list.forEach(w=>{ const k=key(w); (groups[k]=groups[k]||[]).push(w); });
+  const order = wGroup==='lesson' ? Object.keys(groups).sort((a,b)=>lessonKey(a)-lessonKey(b)||a.localeCompare(b)) : categories().filter(c=>groups[c]);
+  const auto = !!q || !!wCat;
+  $('#wgroups').innerHTML = order.map(g=>{
+    const ws = groups[g].sort((a,b)=>a.created-b.created), gid = wGroup+':'+g;
+    const due = ws.filter(w=>w.seen && w.due<=Date.now()).length, known = ws.filter(isLearned).length;
+    return `<details class="wgroup" data-g="${esc(gid)}" ${auto||openGroups.has(gid)?'open':''}>
+      <summary><span class="gname">${wGroup==='lesson'?'📘':catIcon(g)} ${esc(g)}</span><span class="gmeta">${ws.length} word${ws.length>1?'s':''}${due?` · ${due} due`:''}</span>
+        <span class="gbar" title="${known} of ${ws.length} learned"><i style="width:${Math.round(known/ws.length*100)}%"></i></span></summary>
+      <div class="glist">${ws.map(w=>wordItem(w,pm,hint)).join('')}</div></details>`;
+  }).join('');
+}
+const F = ['hanzi','pinyin','meaning','lesson','category','example','dz','notes'];
+function editWord(id){
+  const w=S.words[id]; if(!w) return; editingWord=id;
+  F.forEach(k=>$('#f-'+k).value=w[k]||''); $('#f-pypreview').innerHTML=colorPinyin(w.pinyin);
+  $('#form-title').textContent=`Edit ${w.hanzi||w.pinyin}`; $('#f-save').textContent='Save changes'; $('#f-cancel').hidden=false;
+  $('#add-wrap').open=true; $('#add-wrap').scrollIntoView({block:'start'}); $('#f-pinyin').focus();
+}
+function clearWordForm(){ F.forEach(k=>$('#f-'+k).value=''); $('#f-pypreview').innerHTML=''; editingWord=null; $('#form-title').textContent='Add a word'; $('#f-save').textContent='Add word'; $('#f-cancel').hidden=true; $('#f-err').textContent=''; }
+function saveWordForm(){
+  const v={}; F.forEach(k=>v[k]=$('#f-'+k).value.trim());
+  if(!v.pinyin || !v.meaning){ $('#f-err').textContent = pinyinMode() ? 'Fill in pinyin and meaning first.' : 'Fill in pinyin and meaning first (hanzi too if you know it).'; return; }
+  v.pinyin = toPinyin(v.pinyin);
+  const label = v.hanzi || v.pinyin;
+  if(editingWord && S.words[editingWord]){ const w={...S.words[editingWord], ...v, lesson:normLesson(v.lesson), category:normCat(v.category)}; putWord(w); toast('Word updated'); }
+  else { const k=wordKey(v); if(Object.values(S.words).some(w=>wordKey(w)===k)){ $('#f-err').textContent=`${label} is already in your word bank.`; return; } putWord(blankWord(v)); toast(`Added ${label}`); }
+  const keepLesson=v.lesson, keepCat=v.category; clearWordForm(); $('#f-lesson').value=keepLesson; $('#f-category').value=keepCat; $(pinyinMode()?'#f-pinyin':'#f-hanzi').focus(); renderWords(); renderFlags();
+}
+function bulkImport(){
+  const lines=$('#bulk').value.split('\n').map(l=>l.trim()).filter(Boolean);
+  if(!lines.length){ $('#bulk-err').textContent='Paste at least one line first.'; return; }
+  const have=new Set(Object.values(S.words).map(wordKey)); let added=0, skipped=0, bad=[];
+  lines.forEach((line,i)=>{
+    const r=parseLine(line); if(!r){ bad.push(i+1); return; }
+    const w=blankWord({hanzi:r.hanzi, pinyin:r.pinyin, meaning:r.meaning, lesson:r.rest[0]||'', category:r.rest[1]||'', example:r.rest[2]||''});
+    const k=wordKey(w); if(have.has(k)){ skipped++; return; }
+    have.add(k); putWord(w); added++;
+  });
+  $('#bulk-err').textContent = bad.length ? `Lines ${bad.slice(0,8).join(', ')} need at least pinyin | meaning.` : '';
+  if(added){ $('#bulk').value=''; }
+  toast(`Imported ${added} word${added===1?'':'s'}${skipped?`, skipped ${skipped} already in your bank`:''}`);
+  renderWords(); renderFlags();
+}
+
+/* ---------- grammar ---------- */
+let editingG = null;
+function renderGrammar(){
+  const pm=pinyinMode(), hint=hanziHints();
+  const list=Object.values(S.grammar).sort((a,b)=>lessonKey(a.lesson)-lessonKey(b.lesson)||a.created-b.created);
+  $('#glist').innerHTML = list.length ? list.map(g=>{
+    const usePy = pm && g.ppattern;
+    const pat = usePy ? g.ppattern : g.pattern, expl = usePy ? (g.pexpl||g.expl) : g.expl, ex = usePy ? (g.pexamples||[]) : (g.examples||[]);
+    return `<div class="gcard" style="border-top:2px dashed var(--ink2);padding-top:12px">
+      <div class="row" style="justify-content:space-between"><div class="pat">${richLine(pat)}</div><span class="chip">${esc(g.lesson||'?')}</span></div>
+      ${usePy&&hint?`<div class="han muted">${esc(g.pattern)}</div>`:''}
+      <p style="margin:8px 0 0">${richLine(expl)}</p>
+      ${ex.length?`<ul>${ex.map((e,i)=>`<li style="font-family:var(--font-body);font-size:16px">${richLine(e)} ${speakBtn(hasCJK(e)?e:(g.examples||[])[i]||'')}${usePy&&hint&&(g.examples||[])[i]?` <span class="han muted">${esc(g.examples[i])}</span>`:''}</li>`).join('')}</ul>`:''}
+      <div class="row" style="margin-top:10px"><button class="btn sm" data-gedit="${g.id}">Edit</button><button class="btn sm" data-gdel="${g.id}">Delete</button></div>
+    </div>`; }).join('')
+    : `<p style="margin:0">No grammar patterns yet. Add one above, or load the starter pack for 6 Lesson 1 patterns.</p>`;
+}
+function clearGForm(){ ['pattern','lesson','expl','examples'].forEach(k=>$('#g-'+k).value=''); editingG=null; $('#g-form-title').textContent='Add a grammar pattern'; $('#g-cancel').hidden=true; $('#g-err').textContent=''; }
+function saveGForm(){
+  const pattern=smartPinyin($('#g-pattern').value.trim()), expl=smartPinyin($('#g-expl').value.trim()), lesson=normLesson($('#g-lesson').value), examples=$('#g-examples').value.split('\n').map(s=>smartPinyin(s.trim())).filter(Boolean);
+  if(!pattern || !expl){ $('#g-err').textContent='Add a pattern and an explanation first.'; return; }
+  const base = editingG && S.grammar[editingG] ? S.grammar[editingG] : {id:newId(), created:Date.now()};
+  const py = hasCJK(pattern+examples.join('')) ? {} : {ppattern:pattern, pexpl:expl, pexamples:examples};
+  putGrammar({...base, pattern, expl, lesson, examples, ...py}); toast(editingG?'Pattern updated':'Pattern saved'); clearGForm(); $('#g-form-wrap').open=false; renderGrammar();
+}
+function editG(id){
+  const g=S.grammar[id]; if(!g) return; editingG=id;
+  $('#g-pattern').value=g.pattern; $('#g-lesson').value=g.lesson||''; $('#g-expl').value=g.expl; $('#g-examples').value=(g.examples||[]).join('\n');
+  $('#g-form-title').textContent='Edit grammar pattern'; $('#g-cancel').hidden=false; $('#g-wrap').open=true; $('#g-form-wrap').open=true; $('#g-wrap').scrollIntoView({block:'start'});
+}
+
+/* ---------- class notes ---------- */
+const parseYmd = s => { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); };
+const fmtDate = s => parseYmd(s).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+function startOfDay(d){ d=new Date(d); d.setHours(0,0,0,0); return d; }
+function nextSaturday(from=new Date()){ const d=startOfDay(from); d.setDate(d.getDate()+((6-d.getDay()+7)%7)); return d; }
+function lastSaturday(){ const d=startOfDay(new Date()); d.setDate(d.getDate()-((d.getDay()+1)%7)); return d; }
+const entryFor = date => Object.values(S.journal).find(e=>e.date===date);
+function defaultEntryDate(){ const last=ymd(lastSaturday()); return entryFor(last) ? ymd(nextSaturday(new Date(Date.now()+864e5))) : last; }
+const hwLeft = () => Object.values(S.journal).reduce((n,e)=>n+(e.homework||[]).filter(h=>!h.done).length,0);
+
+/* tone numbers -> marks, only for tokens that really are pinyin (so "L4" or "p32" stay as typed) */
+const FULL_SYL = new RegExp('^(?:'+SYL.source+')+$','i');
+const PY_MARK = /[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/i;
+function smartPinyin(text){
+  return String(text||'').replace(/[a-zA-ZüÜv:]+[1-5](?:[a-zA-ZüÜv:]+[1-5]?)*/g, tok=>{
+    const conv=toPinyin(tok); return FULL_SYL.test(stripTones(conv).replace(/[0-5]/g,'')) ? conv : tok; });
+}
+const richLine = raw => String(raw).split(/(\s+)/).map(t=>PY_MARK.test(t) ? colorPinyin(t) : esc(t)).join('');
+function bulletsHtml(text){
+  const out=[]; let ul=[]; const flush=()=>{ if(ul.length){ out.push(`<ul>${ul.join('')}</ul>`); ul=[]; } };
+  String(text||'').split('\n').map(l=>l.trim()).filter(Boolean).forEach(l=>{
+    if(/^#/.test(l)){ flush(); out.push(`<div class="nsub">${richLine(l.replace(/^#+\s*/,''))}</div>`); }
+    else ul.push(`<li>${richLine(l.replace(/^[-•*]\s*/,''))}</li>`);
+  });
+  flush(); return out.join('');
+}
+function patternsHtml(text){
+  return String(text||'').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{
+    const m=l.match(/^(.*?)\s+(?:=|→|->|—|–)\s+(.*)$/);
+    return `<div class="npat"><b>${richLine(m?m[1]:l)}</b>${m?`<div class="ex">${richLine(m[2])}</div>`:''}</div>`;
+  }).join('');
+}
+function classBanner(){
+  const today0=startOfDay(new Date()), next=nextSaturday(), days=Math.round((next-today0)/864e5);
+  const last=ymd(lastSaturday()), isSat=today0.getDay()===6, left=hwLeft();
+  let head;
+  if(isSat) head = entryFor(today()) ? 'Class day! Your notes are written ✓ 太棒了!' : 'Class day! 上课了! Write your class notes after class.';
+  else if(days===1) head = 'Class is tomorrow! 明天见.';
+  else head = `Next class: <b>${esc(fmtDate(ymd(next)))}</b>, in ${days} days.`;
+  const hw = left ? `You have <b>${left}</b> homework task${left>1?'s':''} left.` : 'No homework left 🎉';
+  const missing = !isSat && !entryFor(last);
+  const btn = (isSat && !entryFor(today())) ? `<button class="btn primary" data-act="j-new" data-date="${today()}">Write today's notes</button>`
+    : missing ? `<button class="btn primary" data-act="j-new" data-date="${last}">Write notes for ${esc(fmtDate(last))}</button>` : '';
+  return `<p style="margin:6px 0 0">${head} ${hw}${missing?` You haven't written notes for last Saturday's class yet.`:''}</p>
+    <div class="row" style="margin-top:10px">${btn}${view!=='journal'?'<button class="btn" data-go="journal">Open class notes</button>':''}<button class="btn" data-go="recap">📊 Weekly recap</button></div>`;
+}
+let editingJ = null, notesInit = false;
+const openNotes = new Set();
+function openJournalForm(date){
+  clearJForm(); if(date) $('#j-date').value=date;
+  const e = date && entryFor(date); if(e){ editJ(e.id); return; }
+  show('journal'); $('#j-form-wrap').open=true; $('#j-topic').focus();
+}
+const J_FIELDS = ['lesson','topic','notes','pron','pat','words','hw','q'];
+function clearJForm(){
+  J_FIELDS.forEach(k=>$('#j-'+k).value=''); $('#j-date').value=defaultEntryDate();
+  editingJ=null; $('#j-err').textContent=''; $('#j-cancel').hidden=true;
+  $('#j-form-title').textContent='Write class notes'; $('#j-words-label').textContent='Vocabulary: pinyin | meaning | category (hanzi first is optional)';
+}
+function editJ(id){
+  const e=S.journal[id]; if(!e) return; editingJ=id;
+  $('#j-date').value=e.date; $('#j-lesson').value=e.lesson||''; $('#j-topic').value=e.topic||''; $('#j-notes').value=e.notes||'';
+  $('#j-pron').value=e.pron||''; $('#j-pat').value=e.patterns||'';
+  $('#j-hw').value=(e.homework||[]).map(h=>h.text).join('\n'); $('#j-q').value=(e.questions||[]).join('\n'); $('#j-words').value='';
+  $('#j-cancel').hidden=false;
+  $('#j-form-title').textContent=`Edit notes for ${fmtDate(e.date)}`; $('#j-words-label').textContent='Add more vocabulary: pinyin | meaning | category (hanzi first is optional)';
+  if(view!=='journal') show('journal'); $('#j-form-wrap').open=true; window.scrollTo(0,0);
+}
+function saveJournal(){
+  const date=$('#j-date').value, lesson=normLesson($('#j-lesson').value);
+  const topic=smartPinyin($('#j-topic').value.trim()), notes=smartPinyin($('#j-notes').value.trim()), pron=smartPinyin($('#j-pron').value.trim()), patterns=smartPinyin($('#j-pat').value.trim());
+  const lines = t => $(t).value.split('\n').map(x=>x.trim()).filter(Boolean);
+  const hwLines=lines('#j-hw'), qLines=lines('#j-q').map(smartPinyin), wLines=lines('#j-words');
+  const err=m=>{ $('#j-err').textContent=m; };
+  if(!date) return err('Pick the class date first.');
+  if(!topic && !notes && !pron && !patterns && !wLines.length && !hwLines.length) return err('Write a topic or at least one note first.');
+  const other=entryFor(date); if(other && other.id!==editingJ) return err(`You already have notes for ${fmtDate(date)}. Edit those instead.`);
+  const parsed=[], bad=[];
+  wLines.forEach((l,i)=>{ const r=parseLine(l); if(!r) bad.push(i+1); else parsed.push(r); });
+  if(bad.length) return err(`Vocabulary lines ${bad.join(', ')} need at least pinyin | meaning.`);
+  const base = editingJ && S.journal[editingJ] ? S.journal[editingJ] : {id:newId(), created:Date.now()};
+  const homework = hwLines.map(t=>({text:t, done:!!((base.homework||[]).find(h=>h.text===t)||{}).done}));
+  let added=0; const byKey=Object.fromEntries(Object.values(S.words).map(w=>[wordKey(w),w]));
+  parsed.forEach(r=>{
+    const w=blankWord({hanzi:r.hanzi, pinyin:r.pinyin, meaning:r.meaning, lesson, category:r.rest[0]||'', example:r.rest[1]||''});
+    const ex=byKey[wordKey(w)];
+    if(ex){ if(!ex.classDate) putWord({...ex, classDate:date}); return; }
+    w.classDate=date; putWord(w); byKey[wordKey(w)]=w; added++;
+  });
+  const firstSave=!base.fed;
+  putJournal({...base, date, lesson, topic, notes, pron, patterns, homework, questions:qLines, fed:true});
+  openNotes.add(base.id);
+  if(firstSave){ feed('treat'); earn(5); }
+  toast(`Notes saved${added?`, ${added} new word${added>1?'s':''} added`:''}${firstSave?`. ${BUDDIES[currentBuddy()].name} got a class-day treat 🍡`:''}`, 4000);
+  clearJForm(); $('#j-form-wrap').open=false; renderJournal(); renderFlags();
+}
+function renderJournal(){
+  renderGrammar();
+  $('#j-banner').innerHTML = `<h3>Saturday class</h3>${classBanner()}`;
+  if(!editingJ && !$('#j-date').value) clearJForm();
+  const asc=Object.values(S.journal).sort((a,b)=>a.date.localeCompare(b.date));
+  if(!notesInit && asc.length){ notesInit=true; openNotes.add(asc[asc.length-1].id); }
+  const num=Object.fromEntries(asc.map((e,i)=>[e.id,i+1]));
+  $('#j-count').textContent = asc.length ? `${asc.length} class${asc.length===1?'':'es'}` : '';
+  const hint = hanziHints() || !pinyinMode();
+  $('#jlist').innerHTML = asc.length ? asc.slice().reverse().map(e=>{
+    const ws=Object.values(S.words).filter(w=>w.classDate===e.date).sort((a,b)=>a.created-b.created);
+    const hwOpen=(e.homework||[]).filter(h=>!h.done).length, d=parseYmd(e.date);
+    const meta=[`Class ${num[e.id]}`, e.lesson, ws.length?`${ws.length} word${ws.length>1?'s':''}`:'', hwOpen?`${hwOpen} homework left`:''].filter(Boolean).join(' · ');
+    return `<details class="note" data-n="${e.id}" ${openNotes.has(e.id)?'open':''}>
+      <summary><span class="ndate">${d.toLocaleDateString('en-GB',{weekday:'short'})}<b>${d.getDate()}</b>${d.toLocaleDateString('en-GB',{month:'short'})}</span>
+        <span class="ntitle">${richLine(e.topic||'Class notes')}</span><span class="nmeta">${esc(meta)}</span></summary>
+      <div class="nbody">
+        ${e.notes?`<section><h4>Key points</h4>${bulletsHtml(e.notes)}</section>`:''}
+        ${e.pron?`<section><h4>Pronunciation and tones</h4>${bulletsHtml(e.pron)}</section>`:''}
+        ${e.patterns?`<section><h4>Sentence patterns</h4>${patternsHtml(e.patterns)}</section>`:''}
+        ${ws.length?`<section><h4>Vocabulary</h4>${ws.map(w=>`<div class="vrow"><span class="py">${colorPinyin(w.pinyin)}${hint&&w.hanzi?` <span class="han muted">${esc(w.hanzi)}</span>`:''}</span><span>${esc(w.meaning)}</span><span>${speakBtn(w.hanzi)}</span></div>`).join('')}
+          <div class="row" style="margin-top:8px"><button class="btn sm mint" data-jpractice="${esc(e.date)}">Practice these words</button></div></section>`:''}
+        ${(e.homework||[]).length?`<section><h4>Homework</h4>${e.homework.map((h,i)=>`<button class="hw" data-hw="${e.id}:${i}" aria-pressed="${!!h.done}"><span class="box">${h.done?'✓':''}</span><span class="t">${esc(h.text)}</span></button>`).join('')}</section>`:''}
+        ${(e.questions||[]).length?`<section><h4>Questions for the teacher</h4><ul>${e.questions.map(q=>`<li>${richLine(q)}</li>`).join('')}</ul></section>`:''}
+        <div class="row" style="margin-top:14px"><button class="btn sm" data-jedit="${e.id}">Edit</button><button class="btn sm" data-jdel="${e.id}">Delete</button></div>
+      </div></details>`; }).join('')
+    : `<div class="panel"><p style="margin:0">No class notes yet. After each Saturday class, jot down the key points, tones, sentence patterns, vocabulary and homework. Each new page gives ${esc(BUDDIES[currentBuddy()].name)} a treat 🍡</p>
+       <div class="row" style="margin-top:10px"><button class="btn primary" data-act="j-new" data-date="${defaultEntryDate()}">Write my first notes</button></div></div>`;
+}
+
+/* ---------- quiz ---------- */
+let Q = null, quizLesson = '';
+const KIND_LABEL = {p2m:'Pinyin → meaning', m2p:'Meaning → pinyin', tones:'Pick the right tones', listen:'Listen and pick', type:'Type the pinyin',
+  h2m:'Hanzi → meaning', m2h:'Meaning → hanzi', h2p:'Hanzi → pinyin'};
+const quizKinds = () => pinyinMode() ? ['p2m','m2p','tones','listen','type'] : ['h2m','m2h','h2p','tones','listen','type'];
+const NEEDS_HANZI = {h2m:'p2m', m2h:'m2p', h2p:'p2m', listen:'m2p'};
+function renderQuizSetup(){
+  const ls=lessons(), n=Object.keys(S.words).length;
+  $('#v-quiz').innerHTML = `
+    <div class="momo-scene"><canvas class="momo big" id="momo-q" width="120" height="100"></canvas>
+      <div class="dialog"><span class="name">Momo</span>${n>=4 ? 'Archery time! Every right answer is an arrow in the target. Pick a lesson and a mode.' : 'You need at least 4 words for a quiz. Add a few more first!'}</div></div>
+    ${n>=4 ? `<div class="panel stack">
+      <div class="grid2">
+        <div><label for="q-lesson">Lesson</label><select id="q-lesson"><option value="">All lessons</option>${ls.map(l=>`<option ${l.name===quizLesson?'selected':''}>${esc(l.name)}</option>`).join('')}</select></div>
+        <div><label for="q-cat">Category</label><select id="q-cat"><option value="">All categories</option>${catOptions('')}</select></div>
+        <div><label for="q-mode">Mode</label><select id="q-mode">${quizKinds().map(k=>`<option value="${k}">${KIND_LABEL[k]}</option>`).join('')}<option value="mix">Mix it up</option></select></div>
+        <div><label for="q-count">Questions</label><select id="q-count"><option>5</option><option selected>10</option><option>20</option></select></div>
+      </div>
+      <div class="row"><button class="btn primary big" data-act="quiz-start">Shoot!</button></div></div>`
+    : `<div class="row"><button class="btn primary" data-go="words">Add words</button></div>`}`;
+  drawMomo($('#momo-q'),'idle');
+}
+function startQuiz(){
+  const lesson=$('#q-lesson').value, cat=$('#q-cat').value, mode=$('#q-mode').value, count=+$('#q-count').value; quizLesson=lesson;
+  const all=Object.values(S.words), pool=all.filter(w=>(!lesson||w.lesson===lesson) && (!cat||catOf(w)===cat));
+  if(!pool.length){ toast('No words match that lesson and category'); return; }
+  const items=shuffle(pool).slice(0,Math.min(count,pool.length)).map(w=>{
+    let kind = mode==='mix' ? pick(quizKinds()) : mode;
+    if(NEEDS_HANZI[kind] && !w.hanzi) kind = NEEDS_HANZI[kind];
+    if(kind==='listen' && !canSpeak) kind='m2p';
+    if(kind==='tones'){ const ch=toneChoices(w.pinyin); if(ch) return {id:w.id, kind, choices:ch, answer:ch.indexOf(w.pinyin)}; kind='m2p'; }
+    const cand = all.filter(o=>o.id!==w.id && (!w.hanzi || o.hanzi!==w.hanzi) && o.meaning!==w.meaning && o.pinyin!==w.pinyin);
+    const others = [...shuffle(cand.filter(o=>catOf(o)===catOf(w))), ...shuffle(cand.filter(o=>catOf(o)!==catOf(w)))].slice(0,3);
+    return {id:w.id, kind, options: shuffle([w, ...others]).map(o=>o.id)};
+  });
+  Q={items, i:0, score:0, answered:false, picked:null, correctNow:null};
+  renderQ();
+}
+function renderQ(){
+  if(Q.i>=Q.items.length) return renderQDone();
+  const it=Q.items[Q.i], w=S.words[it.id];
+  if(!w){ Q.items.splice(Q.i,1); return renderQ(); }
+  const big = t => `<div style="font-size:24px;font-weight:800">${t}</div>`;
+  const prompt = {
+    h2m:`<div class="han" style="font-size:72px;line-height:1">${esc(w.hanzi)}</div>`, h2p:`<div class="han" style="font-size:72px;line-height:1">${esc(w.hanzi)}</div>`,
+    m2h:big(esc(w.meaning)), m2p:big(esc(w.meaning)),
+    p2m:`<div class="py" style="font-size:44px;line-height:1.1">${colorPinyin(w.pinyin)}</div>`,
+    tones:`<div style="font-size:40px;font-weight:800;line-height:1.1">${esc(stripTones(w.pinyin))}</div><div class="muted">${esc(w.meaning)}</div>${speakBtn(w.hanzi)}`,
+    listen:`<div><button class="btn big sky" data-speak="${esc(w.hanzi)}">🔊 Play again</button></div>`,
+    type: pinyinMode()||!w.hanzi ? big(esc(w.meaning)) : `<div class="han" style="font-size:72px;line-height:1">${esc(w.hanzi)}</div>`,
+  }[it.kind];
+  const ask = {h2m:'What does this mean?', p2m:'What does this mean?', m2h:'Which hanzi is it?', m2p:'Which pinyin is it?', h2p:'How do you say it?',
+    tones:'Which tones are right?', listen:'Which one did you hear?', type:'Type the pinyin with tone numbers (ni3 hao3) or marks.'}[it.kind];
+  let body;
+  if(it.kind==='type'){
+    body = `<div class="stack"><input id="q-type" placeholder="ni3 hao3" autocomplete="off" autocapitalize="off" spellcheck="false" ${Q.answered?'disabled':''}>
+      <div class="small" id="q-prev"></div><div class="err" id="q-err"></div>
+      ${Q.answered ? `<div>${Q.correctNow?'Correct!':'Answer:'} <span class="py">${colorPinyin(w.pinyin)}</span></div>` : `<div class="row"><button class="btn primary" data-act="q-check">Check</button></div>`}</div>`;
+  } else if(it.kind==='tones'){
+    body = `<div class="opts">${it.choices.map((c,i)=>{ const cls = Q.answered ? (i===it.answer ? 'right' : i===Q.picked ? 'wrong' : '') : '';
+      return `<button class="btn opt ${cls}" data-choice="${i}" ${Q.answered?'disabled':''}><span class="py" style="font-size:22px">${colorPinyin(c)}</span></button>`; }).join('')}</div>`;
+  } else {
+    body = `<div class="opts">${it.options.map(oid=>{ const o=S.words[oid]; if(!o) return '';
+      const label = (it.kind==='h2m'||it.kind==='p2m') ? esc(o.meaning) : it.kind==='m2h' ? esc(o.hanzi) : `<span class="py">${colorPinyin(o.pinyin)}</span>`;
+      const cls = Q.answered ? (oid===it.id ? 'right' : oid===Q.picked ? 'wrong' : '') : '';
+      return `<button class="btn opt ${it.kind==='m2h'?'han-opt':''} ${cls}" data-opt="${oid}" ${Q.answered?'disabled':''}>${label}</button>`; }).join('')}</div>`;
+  }
+  const said = `${w.hanzi&&!pinyinMode()?esc(w.hanzi)+' = ':''}${colorPinyin(w.pinyin)} = ${esc(w.meaning)}`;
+  $('#v-quiz').innerHTML = `
+    <div class="row" style="justify-content:space-between"><span class="small muted">Question ${Q.i+1} of ${Q.items.length}</span>
+      <span class="target" aria-label="${Q.score} hits">${Q.items.map((_,k)=>`<b class="${k<Q.score?'hit':''}"></b>`).join('')}</span></div>
+    <div class="panel stack" style="text-align:center">${prompt}<div class="muted">${ask}</div>${Q.answered&&it.kind!=='tones'&&it.kind!=='listen'?`<div>${speakBtn(w.hanzi)}</div>`:''}</div>
+    ${body}
+    ${Q.answered ? `<div class="momo-scene"><canvas class="momo" id="momo-q" width="120" height="100"></canvas><div class="dialog"><span class="name">Momo</span>${Q.correctNow?(Q.fedNow?fedMsg():cheer()):`${said}. ${pick(COMFORT).split('.')[0]}.`}</div></div>
+      <div class="row"><button class="btn primary big" data-act="q-next" id="q-next">${Q.i+1<Q.items.length?'Next arrow':'See results'}</button></div>` : ''}`;
+  if(Q.answered){ drawMomo($('#momo-q'), Q.correctNow?'happy':'sad'); $('#q-next').focus(); }
+  else if(it.kind==='listen'){ speak(w.hanzi); }
+  else if(it.kind==='type'){ const inp=$('#q-type'); inp.focus(); inp.addEventListener('input',()=>{ $('#q-prev').innerHTML=colorPinyin(toPinyin(inp.value)); $('#q-err').textContent=''; }); inp.addEventListener('keydown',e=>{ if(e.key==='Enter') checkTyped(); }); }
+}
+function quizToSrs(w, ok){
+  if(ok && w.due<=Date.now()) return schedule(w,3);
+  const was=isLearned(w); let fresh=false;
+  w.seen=(w.seen||0)+1;
+  if(ok){ w.correct=(w.correct||0)+1; if(!was){ w.learned=true; w.learnedAt=Date.now(); fresh=true; } }
+  else { w.reps=0; w.interval=0; w.lapses=(w.lapses||0)+1; w.due=Date.now()+60e3; }
+  putWord(w); return fresh;
+}
+function answer(ok, pickedId){
+  const it=Q.items[Q.i], w=S.words[it.id];
+  Q.answered=true; Q.picked=pickedId; Q.correctNow=ok; if(ok) Q.score++;
+  const fresh = w ? quizToSrs(w, ok) : false;
+  bumpDay(); feed(fresh?'new':'snack'); earn(ok?(fresh?3:1):0); Q.fedNow=fresh; renderQ();
+}
+function checkTyped(){
+  const v=$('#q-type').value.trim();
+  if(!v){ $('#q-err').textContent='Type the pinyin first.'; return; }
+  const w=S.words[Q.items[Q.i].id]; answer(normPy(v)===normPy(w.pinyin));
+}
+function renderQDone(){
+  const s=Q.score, t=Q.items.length, pct=t?s/t:0;
+  $('#v-quiz').innerHTML = `
+    <div class="momo-scene"><canvas class="momo big" id="momo-q" width="120" height="100"></canvas>
+      <div class="dialog"><span class="name">Momo</span>${pct===1?'Perfect score! A true archer of Bhutan. 太棒了!':pct>=.7?`Great shooting! ${s} out of ${t}.`:`${s} out of ${t}. 没关系, review those words and try again.`}</div></div>
+    <div class="panel" style="text-align:center"><div class="target" style="justify-content:center">${Q.items.map((_,k)=>`<b class="${k<s?'hit':''}"></b>`).join('')}</div>
+      <div style="font-family:var(--font-pixel);font-size:32px;margin-top:8px">${s}/${t}</div></div>
+    <div class="row"><button class="btn primary" data-act="quiz-again">Play again</button><button class="btn" data-go="review">Review words</button><button class="btn" data-go="play">More games</button></div>`;
+  drawMomo($('#momo-q'), pct>=.7?'happy':'sad'); Q=null;
+}
+
+/* ---------- backup ---------- */
+async function exportData(){
+  const data=JSON.stringify({app:'bored-learn-chinese', version:1, exported:new Date().toISOString(), words:S.words, grammar:S.grammar, journal:S.journal, meta:S.meta});
+  const filename=`chinese-backup-${today()}.json`;
+  if(window.claude && window.claude.use){
+    try{ const dl=await claude.use('downloads'); if(dl){ await dl.save({filename, data}); toast('Backup saved'); return; } }
+    catch(e){ if(!(e && e.code==='declined')) $('#backup-err').textContent="Couldn't save the backup file. Try again."; return; }
+  }
+  try{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([data],{type:'application/json'})); a.download=filename;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),3000); toast('Backup saved'); }
+  catch(e){ $('#backup-err').textContent="Couldn't save the backup file."; }
+}
+function importData(file){
+  const err=$('#backup-err'); err.textContent='';
+  const r=new FileReader();
+  r.onload=()=>{
+    let o; try{ o=JSON.parse(r.result); }catch(e){ o=null; }
+    if(!o || o.app!=='bored-learn-chinese' || typeof o.words!=='object'){ err.textContent="That file isn't a backup from this app."; return; }
+    const fresh=!Object.keys(S.words).length; let n=0;
+    Object.values(o.words||{}).forEach(w=>{ if(w && w.id && (!S.words[w.id] || (w.seen||0)>=(S.words[w.id].seen||0))){ putWord(w); n++; } });
+    Object.values(o.grammar||{}).forEach(g=>{ if(g && g.id && !S.grammar[g.id]) putGrammar(g); });
+    Object.values(o.journal||{}).forEach(j=>{ if(j && j.id && !S.journal[j.id]) putJournal(j); });
+    const m=o.meta||{}, c=S.meta;
+    const tp={...(m.tp||{})}; Object.entries(c.tp||{}).forEach(([k,v])=>{ if(!tp[k] || v[0]>tp[k][0]) tp[k]=v; });
+    S.meta = fresh ? {...DEFAULT_META, ...m} : {...DEFAULT_META, ...m, ...c,
+      coins:Math.max(c.coins||0, m.coins||0), bestStreak:Math.max(c.bestStreak||0, m.bestStreak||0),
+      owned:{...(m.owned||{}), ...(c.owned||{})}, unlocked:{...(m.unlocked||{}), ...(c.unlocked||{})}, tp, log:{...(m.log||{}), ...(c.log||{})},
+      exams:[...(m.exams||[]), ...(c.exams||[])].sort((a,b)=>a.date.localeCompare(b.date)).slice(-10)};
+    putMeta(); toast(`Backup loaded: ${n} words updated`, 4000); refresh();
+  };
+  r.onerror=()=>{ err.textContent="Couldn't read that file."; };
+  r.readAsText(file);
+}
+
+/* ---------- shared question helpers (exam, games) ---------- */
+function makeItem(w, kind, all){
+  if(NEEDS_HANZI[kind] && !w.hanzi) kind = NEEDS_HANZI[kind];
+  if(kind==='listen' && !canSpeak) kind='m2p';
+  if(kind==='tones'){ const ch=toneChoices(w.pinyin); if(ch) return {id:w.id, kind, choices:ch, answer:ch.indexOf(w.pinyin)}; kind='m2p'; }
+  const cand = all.filter(o=>o.id!==w.id && (!w.hanzi || o.hanzi!==w.hanzi) && o.meaning!==w.meaning && o.pinyin!==w.pinyin);
+  const others = [...shuffle(cand.filter(o=>catOf(o)===catOf(w))), ...shuffle(cand.filter(o=>catOf(o)!==catOf(w)))].slice(0,3);
+  return {id:w.id, kind, options: shuffle([w, ...others]).map(o=>o.id)};
+}
+function qPrompt(it, w){
+  const big = t => `<div style="font-size:24px;font-weight:800">${t}</div>`;
+  const han = `<div class="han" style="font-size:64px;line-height:1">${esc(w.hanzi)}</div>`;
+  return {h2m:han, h2p:han, m2h:big(esc(w.meaning)), m2p:big(esc(w.meaning)),
+    p2m:`<div class="py" style="font-size:40px;line-height:1.1">${colorPinyin(w.pinyin)}</div>`,
+    tones:`<div style="font-size:36px;font-weight:800;line-height:1.1">${esc(stripTones(w.pinyin))}</div><div class="muted">${esc(w.meaning)}</div>${speakBtn(w.hanzi)}`,
+    listen:`<div><button class="btn big sky" data-speak="${esc(w.hanzi)}">🔊 Play</button></div>`,
+    type: pinyinMode()||!w.hanzi ? big(esc(w.meaning)) : han}[it.kind];
+}
+const qAsk = k => ({h2m:'What does this mean?', p2m:'What does this mean?', m2h:'Which hanzi is it?', m2p:'Which pinyin is it?', h2p:'How do you say it?',
+  tones:'Which tones are right?', listen:'Which one did you hear?', type:'Type the pinyin with tone numbers (ni3 hao3) or marks.'})[k];
+const qLabel = (it, o) => (it.kind==='h2m'||it.kind==='p2m') ? esc(o.meaning) : it.kind==='m2h' ? esc(o.hanzi) : `<span class="py">${colorPinyin(o.pinyin)}</span>`;
+const scene = (id, msg, big=true) => `<div class="momo-scene"><canvas class="momo ${big?'big':''}" id="${id}" width="120" height="100"></canvas><div class="dialog"><span class="name">Momo</span>${msg}</div></div>`;
+const isLosar = () => { const d=new Date(), m=d.getMonth(); return (m===0 && d.getDate()>=15) || m===1; };
+
+/* ---------- play hub ---------- */
+const GAMES = [
+  ['quiz','🏹','Archery quiz','Pinyin, meaning and tone questions. Every right answer is an arrow.'],
+  ['tones','🎵','Tone pairs','Hear a two-syllable word and pick its tones. Builds your tone heatmap.'],
+  ['match','🃏','Memory match','Flip cards to pair pinyin with meanings.'],
+  ['speed','⚡','Speed round','60 seconds. How many can you get right?'],
+  ['exam','📝','Mock exam','A timed test with a score report by category.'],
+  ['ask','💬','Ask Momo','Your AI tutor: practice sentences, dialogues and sentence checks.'],
+  ['room','🏠',"Momo's room",'Spend your Nu on outfits and cozy decorations.'],
+  ['recap','📊','Weekly recap','What you learned since last Saturday.'],
+];
+function renderPlay(){
+  const b=S.meta.best||{}, ex=(S.meta.exams||[]).slice(-1)[0], tp=tpTotals();
+  const extra = {tones: tp.seen?`${Math.round(tp.right/tp.seen*100)}% tone accuracy`:'', match: b.match?`Best ${b.match}s`:'', speed: b.speed?`Best ${b.speed} in 60s`:'',
+    exam: ex?`Last: ${ex.score}/${ex.total}`:'', room:`🪙 Nu ${S.meta.coins||0}`, ask: !window.claude?'Online app only':navigator.onLine?'':'Needs internet'};
+  const name=BUDDIES[currentBuddy()].name;
+  $('#v-play').innerHTML = scene('momo-p', `Pick a game! Every game earns Nu 🪙 to spend in ${esc(name)}'s room.`) +
+    `<div class="games">${GAMES.map(([v,ic,t,d])=>`<button class="btn game" data-go="${v}"><span class="gi" aria-hidden="true">${ic}</span><span><b>${esc(v==='room'?`${name}'s room`:v==='ask'?`Ask ${name}`:t)}</b>${esc(d)}${extra[v]?`<span class="small muted">${esc(extra[v])}</span>`:''}</span></button>`).join('')}</div>`;
+  drawMomo($('#momo-p'),'happy');
+}
+
+/* ---------- tone pair trainer ---------- */
+const TONE_WORDS = [['飞机','fēijī','airplane'],['星期','xīngqī','week'],['中国','Zhōngguó','China'],['欢迎','huānyíng','welcome'],['铅笔','qiānbǐ','pencil'],
+ ['黑板','hēibǎn','blackboard'],['工作','gōngzuò','work'],['音乐','yīnyuè','music'],['妈妈','māma','mom'],['哥哥','gēge','older brother'],
+ ['明天','míngtiān','tomorrow'],['茶杯','chábēi','teacup'],['学习','xuéxí','to study'],['银行','yínháng','bank'],['苹果','píngguǒ','apple'],
+ ['牛奶','niúnǎi','milk'],['学校','xuéxiào','school'],['同事','tóngshì','coworker'],['朋友','péngyou','friend'],['时候','shíhou','time, moment'],
+ ['老师','lǎoshī','teacher'],['每天','měitiān','every day'],['美国','Měiguó','USA'],['旅行','lǚxíng','to travel'],['你好','nǐ hǎo','hello'],
+ ['水果','shuǐguǒ','fruit'],['米饭','mǐfàn','cooked rice'],['考试','kǎoshì','exam'],['姐姐','jiějie','older sister'],['耳朵','ěrduo','ear'],
+ ['面包','miànbāo','bread'],['汽车','qìchē','car'],['大学','dàxué','university'],['课文','kèwén','lesson text'],['跳舞','tiàowǔ','to dance'],
+ ['下雨','xiàyǔ','to rain'],['再见','zàijiàn','goodbye'],['睡觉','shuìjiào','to sleep'],['爸爸','bàba','dad'],['谢谢','xièxie','thank you']];
+const ALL_KEYS = [1,2,3,4].flatMap(a=>[1,2,3,4,0].map(b=>`${a}-${b}`));
+const tpKey = py => { const t=sylTones(py); return t.length===2 && t[0] ? `${t[0]}-${t[1]}` : null; };
+const keyLabel = k => { const [a,b]=k.split('-').map(Number); return `${markSyllable('ma',a)} ${markSyllable('ma',b)}`; };
+const keyNum = k => k.replace('-','+').replace(/0$/,'n');
+function tpTotals(){ const tp=S.meta.tp||{}; return Object.values(tp).reduce((a,[s,r])=>({seen:a.seen+s,right:a.right+r}),{seen:0,right:0}); }
+function tonePool(){
+  const own = Object.values(S.words).filter(w=>w.hanzi && tpKey(w.pinyin)).map(w=>[w.hanzi,w.pinyin,w.meaning]);
+  const have = new Set(own.map(o=>o[0]));
+  return own.concat(TONE_WORDS.filter(t=>!have.has(t[0])));
+}
+function heatmap(){
+  const tp=S.meta.tp||{};
+  let worst=null;
+  const cell = k => { const [s,r]=tp[k]||[0,0]; if(!s) return `<td title="${keyNum(k)}: not tried yet">·</td>`;
+    const p=Math.round(r/s*100); if(s>=3 && (!worst || p<worst.p)) worst={k,p};
+    return `<td class="${p>=80?'good':p>=50?'mid':'bad'}" title="${keyNum(k)}: ${r} of ${s} right">${p}%</td>`; };
+  const rows=[1,2,3,4].map(a=>`<tr><th scope="row">${a}</th>${[1,2,3,4,0].map(b=>cell(`${a}-${b}`)).join('')}</tr>`).join('');
+  return `<div style="overflow-x:auto"><table class="hm"><caption class="small muted" style="text-align:left;padding-bottom:4px">Rows: first tone. Columns: second tone (n = neutral).</caption>
+    <tr><th></th>${[1,2,3,4,'n'].map(b=>`<th scope="col">${b}</th>`).join('')}</tr>${rows}</table></div>`
+    + (worst && worst.p<80 ? `<p style="margin:8px 0 0">Your tone nemesis: <b>${keyNum(worst.k)}</b> (${esc(keyLabel(worst.k))}) at ${worst.p}%.</p>` : '');
+}
+let TP = null;
+function renderTonesHome(){
+  $('#v-tones').innerHTML = scene('momo-t', canSpeak ? 'Listen to a two-syllable word, then pick its tone pair. Mandarin has 20 pairs. Let\'s find your nemesis!' : 'Read the word without tone marks and pick its tone pair. (Audio isn\'t available in this browser.)')
+    + `<div class="panel stack"><h3>Your tone heatmap</h3>${heatmap()}<div class="row"><button class="btn primary big" data-act="tp-start">Start 10 rounds</button><button class="btn" data-go="play">Back to games</button></div></div>`;
+  drawMomo($('#momo-t'),'idle');
+}
+function startTones(){
+  const items = shuffle(tonePool()).slice(0,10).map(([h,p,m])=>{ const key=tpKey(p);
+    return {h,p,m,key,opts:shuffle([key,...shuffle(ALL_KEYS.filter(k=>k!==key)).slice(0,3)])}; });
+  TP={items,i:0,score:0,answered:false,pick:null}; renderTones();
+}
+function renderTones(){
+  if(TP.i>=TP.items.length) return finishTones();
+  const it=TP.items[TP.i];
+  $('#v-tones').innerHTML = `
+    <div class="row" style="justify-content:space-between"><span class="small muted">Round ${TP.i+1} of ${TP.items.length}</span><span class="small muted">${TP.score} right</span></div>
+    <div class="panel stack" style="text-align:center">
+      ${canSpeak?`<div><button class="btn big sky" data-speak="${esc(it.h)}">🔊 Play again</button></div>`:''}
+      <div style="font-size:34px;font-weight:800">${TP.answered?colorPinyin(it.p):esc(stripTones(it.p))}</div>
+      <div class="muted">${esc(it.m)}${hanziHints()||!pinyinMode()?` · <span class="han">${esc(it.h)}</span>`:''}</div>
+    </div>
+    <div class="opts">${it.opts.map(k=>{ const cls=TP.answered?(k===it.key?'right':k===TP.pick?'wrong':''):'';
+      return `<button class="btn opt ${cls}" data-tp="${k}" ${TP.answered?'disabled':''}><span style="font-size:22px;font-weight:800">${esc(keyLabel(k))}</span> <span class="small muted">${keyNum(k)}</span></button>`; }).join('')}</div>
+    ${TP.answered?`${scene('momo-t', TP.pick===it.key ? cheer() + (it.key==='3-3'?' Remember: 3+3 is said like 2+3!':'') : `It was ${keyNum(it.key)}: ${colorPinyin(it.p)}.${it.key==='3-3'?' Tricky one: 3+3 sounds like 2+3 when spoken.':''}`, false)}
+      <div class="row"><button class="btn primary big" data-act="tp-next" id="tp-next">${TP.i+1<TP.items.length?'Next':'See results'}</button></div>`:''}`;
+  if(TP.answered){ drawMomo($('#momo-t'), TP.pick===it.key?'happy':'sad'); $('#tp-next').focus(); }
+  else if(canSpeak) speak(it.h);
+}
+function answerTones(k){
+  if(!TP||TP.answered) return;
+  const it=TP.items[TP.i], tp={...(S.meta.tp||{})}, [s,r]=tp[it.key]||[0,0];
+  TP.answered=true; TP.pick=k; const ok=k===it.key; if(ok) TP.score++;
+  tp[it.key]=[s+1, r+(ok?1:0)]; S.meta.tp=tp;
+  renderTones();
+}
+function finishTones(){
+  const s=TP.score, t=TP.items.length; TP=null; putMeta(); earn(s);
+  $('#v-tones').innerHTML = scene('momo-t', `${s} out of ${t}! You earned ${s} Nu 🪙 ${s>=8?'Your ears are getting sharp!':'Tones take time. 加油!'}`)
+    + `<div class="panel stack"><h3>Your tone heatmap</h3>${heatmap()}<div class="row"><button class="btn primary" data-act="tp-start">Play again</button><button class="btn" data-go="play">Back to games</button></div></div>`;
+  drawMomo($('#momo-t'), s>=7?'happy':'idle');
+}
+
+/* ---------- memory match ---------- */
+let MM = null;
+function renderMatchHome(){
+  const n=Object.keys(S.words).length, best=(S.meta.best||{}).match;
+  $('#v-match').innerHTML = scene('momo-m', n>=6 ? `Find the pairs: each pinyin card matches a meaning card.${best?` Your best time is ${best}s.`:''}` : 'You need at least 6 words to play. Add a few more first!')
+    + `<div class="row">${n>=6?'<button class="btn primary big" data-act="mm-start">Start</button>':'<button class="btn primary" data-go="words">Add words</button>'}<button class="btn" data-go="play">Back to games</button></div>`;
+  drawMomo($('#momo-m'),'idle');
+}
+function startMatch(){
+  stopMatch();
+  const all=Object.values(S.words), pool=[...shuffle(all.filter(isLearned)), ...shuffle(all.filter(w=>!isLearned(w)))];
+  const picked=[], seenM=new Set(), seenP=new Set();
+  for(const w of pool){ const m=w.meaning.toLowerCase(), p=normPy(w.pinyin); if(seenM.has(m)||seenP.has(p)) continue; seenM.add(m); seenP.add(p); picked.push(w); if(picked.length===6) break; }
+  MM={cards:shuffle(picked.flatMap(w=>[{w:w.id,t:'p'},{w:w.id,t:'m'}])), open:[], done:new Set(), moves:0, start:0, lock:false, n:picked.length, timer:null};
+  renderMatch();
+}
+function stopMatch(){ if(MM && MM.timer) clearInterval(MM.timer); if(MM && MM.done.size<MM.n) MM=null; }
+function renderMatch(){
+  const secs = MM.start ? Math.round((Date.now()-MM.start)/1000) : 0;
+  $('#v-match').innerHTML = `<div class="row" style="justify-content:space-between"><span class="small muted">${MM.done.size}/${MM.n} pairs · ${MM.moves} moves</span><span class="small muted" id="mm-time">${secs}s</span></div>
+    <div class="cards">${MM.cards.map((c,i)=>{ const w=S.words[c.w]; const up=MM.open.includes(i)||MM.done.has(c.w);
+      if(!up) return `<button class="btn mcard back" data-card="${i}" aria-label="Hidden card">?</button>`;
+      return `<button class="btn mcard ${MM.done.has(c.w)?'done':''}" data-card="${i}">${c.t==='p'?`<span class="py" style="font-size:20px">${colorPinyin(w?w.pinyin:'')}</span>`:esc(w?w.meaning:'')}</button>`; }).join('')}</div>
+    <div class="row"><button class="btn" data-act="mm-start">Restart</button><button class="btn" data-go="play">Back to games</button></div>`;
+}
+function flipCard(i){
+  if(!MM || MM.lock || MM.open.includes(i) || MM.done.has(MM.cards[i].w)) return;
+  if(!MM.start){ MM.start=Date.now(); MM.timer=setInterval(()=>{ const el=$('#mm-time'); if(el&&MM) el.textContent=Math.round((Date.now()-MM.start)/1000)+'s'; },1000); }
+  MM.open.push(i);
+  if(MM.open.length===2){
+    MM.moves++; const [a,b]=MM.open.map(k=>MM.cards[k]);
+    if(a.w===b.w && a.t!==b.t){ MM.done.add(a.w); MM.open=[]; if(MM.done.size===MM.n) return finishMatch(); }
+    else { MM.lock=true; setTimeout(()=>{ if(!MM) return; MM.open=[]; MM.lock=false; if(view==='match') renderMatch(); },800); }
+  }
+  renderMatch();
+}
+function finishMatch(){
+  clearInterval(MM.timer);
+  const secs=Math.round((Date.now()-MM.start)/1000), best={...(S.meta.best||{})}, nb=!best.match||secs<best.match;
+  if(nb) best.match=secs; S.meta.best=best; putMeta(); earn(nb?6:4);
+  const moves=MM.moves; MM=null;
+  $('#v-match').innerHTML = scene('momo-m', `All pairs found in ${secs}s with ${moves} moves! ${nb?'New best time! ':''}You earned ${nb?6:4} Nu 🪙`)
+    + `<div class="row"><button class="btn primary" data-act="mm-start">Play again</button><button class="btn" data-go="play">Back to games</button></div>`;
+  drawMomo($('#momo-m'),'happy');
+}
+
+/* ---------- speed round ---------- */
+let SP = null;
+function renderSpeedHome(){
+  const n=Object.keys(S.words).length, best=(S.meta.best||{}).speed;
+  $('#v-speed').innerHTML = scene('momo-s', n>=4 ? `60 seconds: pick the right meaning as fast as you can.${best?` Your best is ${best}.`:''}` : 'You need at least 4 words to play.')
+    + `<div class="row">${n>=4?'<button class="btn primary big" data-act="sp-start">Go!</button>':''}<button class="btn" data-go="play">Back to games</button></div>`;
+  drawMomo($('#momo-s'),'idle');
+}
+function startSpeed(){ stopSpeed(); SP={score:0, wrong:0, end:Date.now()+60e3, cur:null, flash:''}; SP.timer=setInterval(tickSpeed,250); nextSpeed(); }
+function stopSpeed(){ if(SP && SP.timer) clearInterval(SP.timer); SP=null; }
+function nextSpeed(){
+  const all=Object.values(S.words), w=pick(all);
+  const others=shuffle(all.filter(o=>o.id!==w.id && o.meaning!==w.meaning)).slice(0,3);
+  SP.cur={id:w.id, opts:shuffle([w,...others]).map(o=>o.id)}; renderSpeed();
+}
+function renderSpeed(){
+  const w=S.words[SP.cur.id], left=Math.max(0,SP.end-Date.now()), useH=!pinyinMode() && w.hanzi;
+  $('#v-speed').innerHTML = `<div class="row" style="justify-content:space-between"><b style="font-family:var(--font-pixel)">Score ${SP.score}</b><span class="small muted" id="sp-time">${Math.ceil(left/1000)}s</span></div>
+    <div class="timebar"><div id="sp-bar" style="width:${left/600}%"></div></div>
+    <div class="panel ${SP.flash}" style="text-align:center">${useH?`<div class="han" style="font-size:56px">${esc(w.hanzi)}</div>`:`<div class="py" style="font-size:38px">${colorPinyin(w.pinyin)}</div>`}</div>
+    <div class="opts">${SP.cur.opts.map(id=>`<button class="btn opt" data-spopt="${id}">${esc((S.words[id]||{}).meaning||'')}</button>`).join('')}</div>`;
+}
+function tickSpeed(){
+  if(!SP) return; const left=SP.end-Date.now();
+  if(left<=0) return endSpeed();
+  const t=$('#sp-time'), b=$('#sp-bar'); if(t) t.textContent=Math.ceil(left/1000)+'s'; if(b) b.style.width=(left/600)+'%';
+}
+function answerSpeed(id){ if(!SP) return; if(id===SP.cur.id){ SP.score++; SP.flash='flash-ok'; } else { SP.wrong++; SP.flash='flash-bad'; } nextSpeed(); }
+function endSpeed(){
+  const {score,wrong}=SP; stopSpeed();
+  const best={...(S.meta.best||{})}, nb=score>(best.speed||0); if(nb) best.speed=score; S.meta.best=best; putMeta();
+  const coins=Math.ceil(score/2); earn(coins);
+  $('#v-speed').innerHTML = scene('momo-s', `Time's up! ${score} right, ${wrong} wrong. ${nb?'New best! ':''}You earned ${coins} Nu 🪙`)
+    + `<div class="row"><button class="btn primary" data-act="sp-start">Play again</button><button class="btn" data-go="play">Back to games</button></div>`;
+  drawMomo($('#momo-s'), score>=10?'happy':'idle');
+}
+
+/* ---------- mock exam ---------- */
+let EX = null;
+function renderExamSetup(){
+  const ls=lessons(), n=Object.keys(S.words).length, hist=(S.meta.exams||[]).slice(-5).reverse();
+  $('#v-exam').innerHTML = scene('momo-e', n>=4 ? 'A practice test like the real thing: no hints until the end, then a full report.' : 'You need at least 4 words for a mock exam.')
+    + (n>=4 ? `<div class="panel stack">
+      <fieldset style="border:0;padding:0;margin:0"><legend class="small muted" style="font-weight:600;margin-bottom:6px">Lessons</legend>
+        <div class="row">${ls.map(l=>`<label class="row" style="gap:6px;font-size:15px;color:var(--ink);margin:0"><input type="checkbox" name="ex-lesson" value="${esc(l.name)}" checked style="width:auto"> ${esc(l.name)}</label>`).join('')}</div></fieldset>
+      <div class="grid2">
+        <div><label for="ex-count">Questions</label><select id="ex-count"><option>10</option><option selected>20</option><option>30</option></select></div>
+        <div><label for="ex-time">Time limit</label><select id="ex-time"><option value="0">No limit</option><option value="10" selected>10 minutes</option><option value="20">20 minutes</option></select></div>
+      </div><div class="err" id="ex-setup-err"></div>
+      <div class="row"><button class="btn primary big" data-act="ex-start">Start exam</button><button class="btn" data-go="play">Back to games</button></div></div>` : '')
+    + (hist.length?`<div class="panel"><h3>Past exams</h3>${hist.map(h=>`<div class="hbar"><span>${esc(fmtDate(h.date))}</span><span class="track"><i style="width:${Math.round(h.score/h.total*100)}%"></i></span><b>${h.score}/${h.total}</b></div>`).join('')}</div>`:'');
+  drawMomo($('#momo-e'),'idle');
+}
+function startExam(){
+  const chosen=[...document.querySelectorAll('input[name=ex-lesson]:checked')].map(i=>i.value);
+  const all=Object.values(S.words), pool=all.filter(w=>chosen.includes(w.lesson||'?'));
+  if(pool.length<4){ $('#ex-setup-err').textContent='Pick lessons with at least 4 words.'; return; }
+  const count=+$('#ex-count').value, mins=+$('#ex-time').value, kinds=quizKinds();
+  const items=shuffle(pool).slice(0,count).map(w=>makeItem(w, pick(kinds), all));
+  EX={items, i:0, answers:[], sel:null, end: mins ? Date.now()+mins*60e3 : 0};
+  if(EX.end) EX.timer=setInterval(()=>{ if(!EX) return; const left=EX.end-Date.now(); const el=$('#ex-time-left'); if(el) el.textContent=fmtClock(left); if(left<=0) finishExam(); },500);
+  renderExamQ();
+}
+const fmtClock = ms => { const s=Math.max(0,Math.ceil(ms/1000)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
+function renderExamQ(){
+  const it=EX.items[EX.i], w=S.words[it.id];
+  if(!w){ EX.answers.push({skip:true}); EX.i++; return EX.i<EX.items.length ? renderExamQ() : finishExam(); }
+  let body;
+  if(it.kind==='type') body=`<input id="ex-type" placeholder="ni3 hao3" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="small" id="ex-prev"></div>`;
+  else if(it.kind==='tones') body=`<div class="opts">${it.choices.map((c,i)=>`<button class="btn opt exopt" data-exopt="${i}" aria-pressed="false"><span class="py" style="font-size:20px">${colorPinyin(c)}</span></button>`).join('')}</div>`;
+  else body=`<div class="opts">${it.options.map(id=>{ const o=S.words[id]; return o?`<button class="btn opt exopt ${it.kind==='m2h'?'han-opt':''}" data-exopt="${id}" aria-pressed="false">${qLabel(it,o)}</button>`:''; }).join('')}</div>`;
+  $('#v-exam').innerHTML = `<div class="row" style="justify-content:space-between"><span class="small muted">Question ${EX.i+1} of ${EX.items.length}</span>${EX.end?`<b id="ex-time-left" style="font-family:var(--font-pixel)">${fmtClock(EX.end-Date.now())}</b>`:''}</div>
+    <div class="progress"><div style="width:${Math.round(EX.i/EX.items.length*100)}%"></div></div>
+    <div class="panel stack" style="text-align:center">${qPrompt(it,w)}<div class="muted">${qAsk(it.kind)}</div></div>
+    ${body}<div class="err" id="ex-err"></div>
+    <div class="row"><button class="btn primary" data-act="ex-next">${EX.i+1<EX.items.length?'Next':'Finish'}</button><button class="btn" data-act="ex-skip">Skip</button></div>`;
+  EX.sel=null;
+  if(it.kind==='type'){ const inp=$('#ex-type'); inp.focus(); inp.addEventListener('input',()=>{ $('#ex-prev').innerHTML=colorPinyin(toPinyin(inp.value)); $('#ex-err').textContent=''; }); inp.addEventListener('keydown',e=>{ if(e.key==='Enter') examNext(false); }); }
+  if(it.kind==='listen') speak(w.hanzi);
+}
+function examNext(skip){
+  if(!EX) return;
+  const it=EX.items[EX.i], w=S.words[it.id];
+  let a={skip:true};
+  if(!skip){
+    if(it.kind==='type'){ const v=$('#ex-type').value.trim(); if(!v){ $('#ex-err').textContent='Type an answer first, or skip.'; return; } a={given:v, ok:normPy(v)===normPy(w.pinyin)}; }
+    else { if(EX.sel==null){ $('#ex-err').textContent='Pick an answer first, or skip.'; return; }
+      a = it.kind==='tones' ? {given:it.choices[+EX.sel], ok:+EX.sel===it.answer} : {given:(S.words[EX.sel]||{})[it.kind==='h2m'||it.kind==='p2m'?'meaning':it.kind==='m2h'?'hanzi':'pinyin'], ok:EX.sel===it.id}; }
+  }
+  EX.answers.push(a); EX.i++;
+  if(EX.i<EX.items.length) renderExamQ(); else finishExam();
+}
+function finishExam(){
+  if(!EX) return; clearInterval(EX.timer);
+  const rows=EX.items.map((it,i)=>({it, w:S.words[it.id], a:EX.answers[i]||{skip:true}})).filter(r=>r.w);
+  const score=rows.filter(r=>r.a.ok).length, total=rows.length;
+  rows.forEach(r=>{ if(!r.a.ok){ r.w.reps=0; r.w.interval=0; r.w.lapses=(r.w.lapses||0)+1; r.w.due=Date.now(); r.w.seen=(r.w.seen||0)+1; putWord(r.w); } else quizToSrs(r.w,true); });
+  const hist=[...(S.meta.exams||[]), {date:today(), score, total}].slice(-10); S.meta.exams=hist; bumpDay();
+  const coins=Math.round(score/2); earn(coins);
+  const by = key => { const m={}; rows.forEach(r=>{ const k=key(r); m[k]=m[k]||[0,0]; m[k][1]++; if(r.a.ok) m[k][0]++; }); return Object.entries(m).sort((a,b)=>a[1][0]/a[1][1]-b[1][0]/b[1][1]); };
+  const bars = list => list.map(([k,[ok,n]])=>`<div class="hbar"><span>${esc(k)}</span><span class="track"><i style="width:${Math.round(ok/n*100)}%"></i></span><b>${ok}/${n}</b></div>`).join('');
+  const wrong=rows.filter(r=>!r.a.ok), pct=total?score/total:0;
+  EX=null;
+  $('#v-exam').innerHTML = scene('momo-e', `${pct>=.9?'Outstanding! 太棒了!':pct>=.7?'Solid work!':pct>=.5?'Getting there. 加油!':'Good practice. Let\'s review those words.'} You scored ${score}/${total} (${Math.round(pct*100)}%) and earned ${coins} Nu 🪙`)
+    + `<div class="panel stack"><h3>By category</h3>${bars(by(r=>`${catIcon(catOf(r.w))} ${catOf(r.w)}`))}<h3>By question type</h3>${bars(by(r=>KIND_LABEL[r.it.kind]))}</div>`
+    + (wrong.length?`<div class="panel stack"><h3>To review (${wrong.length})</h3><p class="small muted" style="margin:0">These are now due in Review.</p>${wrong.map(r=>`<div class="hbar" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)"><span class="py">${colorPinyin(r.w.pinyin)}${r.w.hanzi&&(hanziHints()||!pinyinMode())?` <span class="han muted">${esc(r.w.hanzi)}</span>`:''}</span><span>${esc(r.w.meaning)}${r.a.skip?' <span class="small muted">(skipped)</span>':''}</span></div>`).join('')}</div>`:'')
+    + `<div class="row"><button class="btn primary" data-act="ex-home">New exam</button><button class="btn" data-go="review">Review now</button><button class="btn" data-go="play">Back to games</button></div>`;
+  drawMomo($('#momo-e'), pct>=.7?'happy':'idle');
+}
+
+/* ---------- Ask Momo (AI tutor) ---------- */
+const ASK = {msgs:[], busy:false};
+async function getSample(){ if(!window.claude || !window.claude.use) return null; try{ return await claude.use('sample'); }catch(e){ return null; } }
+function tutorContext(){
+  const b=BUDDIES[currentBuddy()], showH=!pinyinMode()||hanziHints();
+  const known=Object.values(S.words).filter(isLearned).slice(-150).map(w=>`${w.pinyin}=${w.meaning}`).join('; ');
+  return `You are ${b.full}, a cheerful study buddy inside a cozy, cute Chinese learning app. The learner is a Bhutanese university student in Chinese 1, which focuses on pinyin; characters come next year in Chinese 2. Rules: write all Chinese in pinyin with tone marks${showH?', and you may add simplified hanzi in brackets after a sentence':''}; keep each reply under 130 words; be warm and encouraging; use short "- " lines for lists; no markdown headings, bold or tables. When you write sentences or dialogues, use mostly words from the known list plus very basic grammar words, and give the English meaning on the next line. When checking a sentence, say what is right, then fix mistakes gently and explain why. Known words: ${known||'none yet, keep it very simple'}.`;
+}
+const fmtTutor = t => String(t||'').replace(/\*\*|__|^#+\s*/gm,'').split('\n').map(richLine).join('<br>');
+function renderAsk(){
+  const b=BUDDIES[currentBuddy()];
+  const quick=[['practice','Practice sentences'],['dialogue','Café dialogue'],['quizme','Quiz me'],['tones','Tone tips'],['check','Check my sentence']];
+  $('#v-ask').innerHTML = scene('momo-a', `Hi! I'm ${esc(b.name)}, your tutor. Ask me anything about your Chinese class, or tap a button.${navigator.onLine?'':' (I need internet to answer.)'}`, false)
+    + `<div class="row">${quick.map(([k,t])=>`<button class="btn sm" data-ask="${k}" ${ASK.busy?'disabled':''}>${t}</button>`).join('')}</div>
+    <div class="chat" id="ask-log">${ASK.msgs.map(m=>`<div class="bubble ${m.role==='user'?'me':'momo'}"><div class="who">${m.role==='user'?'You':esc(b.name)}</div><div class="txt">${m.role==='user'?esc(m.content):(m.content?fmtTutor(m.content):'<span class="muted">Thinking…</span>')}</div></div>`).join('')}</div>
+    <div class="stack"><label for="ask-in">Your message</label><textarea id="ask-in" rows="3" placeholder="Check this: Wo3 shi4 Bu4dan1 ren2. Or ask: when do I use ne?"></textarea><div class="err" id="ask-err"></div>
+      <div class="row"><button class="btn primary" data-act="ask-send" ${ASK.busy?'disabled':''}>Send</button>${ASK.msgs.length?'<button class="btn" data-act="ask-clear">New chat</button>':''}<button class="btn" data-go="play">Back to games</button></div></div>`;
+  drawMomo($('#momo-a'), ASK.busy?'idle':'happy');
+  const log=$('#ask-log'); if(log && ASK.msgs.length) log.lastElementChild.scrollIntoView({block:'nearest'});
+}
+function askQuick(k){
+  if(k==='check'){ const i=$('#ask-in'); i.value='Check my sentence: '; i.focus(); return; }
+  sendAsk({practice:'Make 5 short practice sentences for me using my known words. Pinyin first, English on the next line.',
+    dialogue:'Write a short 6-line dialogue between two classmates ordering drinks at a café. Use my known words as much as possible, with English under each line.',
+    quizme:'Quiz me: give me 3 short English sentences to translate into pinyin. Wait for my answers before giving the solutions.',
+    tones:'Give me 3 practical tips for hearing and saying Mandarin tones, especially the 3rd tone and tone changes like bù and yī.'}[k]);
+}
+async function sendAsk(text){
+  text=String(text||'').trim();
+  if(!text){ const e=$('#ask-err'); if(e) e.textContent='Type a message first.'; return; }
+  if(ASK.busy) return;
+  if(!navigator.onLine){ $('#ask-err').textContent="You're offline. Momo needs internet to answer."; return; }
+  const sample=await getSample();
+  if(!sample){ $('#ask-err').textContent = window.claude ? "Ask Momo isn't available right now. Try again later." : "Ask Momo only works in the online app on claude.ai."; return; }
+  ASK.msgs.push({role:'user',content:text}, {role:'assistant',content:''}); ASK.busy=true; renderAsk();
+  const pairs=[]; for(let i=0;i<ASK.msgs.length-2;i+=2){ if(ASK.msgs[i+1] && !ASK.msgs[i+1].error) pairs.push(ASK.msgs[i], ASK.msgs[i+1]); }
+  const hist=[...pairs.slice(-10), {role:'user', content:text}].map((m,i)=>({role:m.role, content: i===0 ? tutorContext()+'\n\nStudent: '+m.content : m.content}));
+  const last=ASK.msgs[ASK.msgs.length-1];
+  try{
+    const res=await sample(hist,{cache:false, onText:({text:t})=>{ last.content=t; const el=document.querySelector('#ask-log .bubble:last-child .txt'); if(el) el.innerHTML=fmtTutor(t); }});
+    last.content=res.text;
+  }catch(e){
+    last.error=true;
+    last.content = e && e.code==='rate_limited' ? 'I need a short break. Try again in a minute.' : e && e.code==='not_granted' ? "I can't connect yet. Allow Claude access for this page in its permissions menu." : "I couldn't answer that. Check your internet and try again.";
+  }
+  ASK.busy=false; if(view==='ask') renderAsk();
+}
+function askPlan(){
+  const r=recapData();
+  show('ask');
+  sendAsk(`Here's my week since Saturday class: ${r.reviews} reviews, ${r.newWords.length} new words, weakest words: ${r.weak.map(w=>w.pinyin).join(', ')||'none'}, tone nemesis: ${r.nemesis||'unknown'}, homework left: ${r.hw.length}. Make me a short, friendly plan for the days before next Saturday's class.`);
+}
+async function fillHanzi(){
+  const miss=Object.values(S.words).filter(w=>!w.hanzi).slice(0,40);
+  if(!miss.length) return;
+  if(!navigator.onLine){ toast("You're offline. Try again when you have internet."); return; }
+  const sample=await getSample(); if(!sample){ toast("Momo can't look up characters here."); return; }
+  toast('Momo is looking up the characters…', 6000);
+  try{
+    const res=await sample.json(`Give the simplified Chinese characters for each Mandarin word below (pinyin = meaning). Reply with JSON only: an array of {"i": number, "hanzi": string}. Leave out any word you are unsure about.\n`+miss.map((w,i)=>`${i}: ${w.pinyin} = ${w.meaning}`).join('\n'));
+    let n=0;
+    (Array.isArray(res)?res:[]).forEach(r=>{ const w=r&&miss[r.i], h=String((r&&r.hanzi)||'').trim();
+      if(w && S.words[w.id] && !S.words[w.id].hanzi && hasCJK(h) && h.length<=8){ putWord({...S.words[w.id], hanzi:h}); n++; } });
+    toast(n ? `Added hanzi to ${n} word${n===1?'':'s'}. They have audio now 🔊` : "Momo wasn't sure about any of them.", 4000);
+  }catch(e){ toast(e && e.code==='rate_limited' ? 'Momo needs a short break. Try again soon.' : "Couldn't look up characters right now."); }
+  if(view==='words') renderWords();
+}
+
+/* ---------- Momo's room + shop ---------- */
+const SHOP = [
+  {id:'gho', name:'Tiny gho', slot:'body', price:30, desc:'Maroon plaid robe'},
+  {id:'kira', name:'Tiny kira', slot:'body', price:30, desc:'Colorful striped kira'},
+  {id:'poppy', name:'Blue poppy crown', slot:'head', price:20, desc:"Bhutan's national flower"},
+  {id:'bow', name:'Archery bow', slot:'hand', price:25, desc:'For a champion of the national sport'},
+  {id:'partyhat', name:'Losar party hat', slot:'head', price:15, desc:'New year special', event:true},
+  {id:'window', name:'Mountain window', price:30, desc:'A view of snowy peaks'},
+  {id:'flags', name:'Prayer flags', price:10, desc:'A string of colors across the wall'},
+  {id:'bukhari', name:'Bukhari stove', price:25, desc:'Keeps the room warm and cozy'},
+  {id:'bamboo', name:'Bamboo plant', price:10, desc:'A snack for later'},
+  {id:'target', name:'Archery target', price:20, desc:'Practice makes perfect'},
+  {id:'books', name:'Bookshelf', price:20, desc:'Full of textbooks'},
+  {id:'rug', name:'Kira-pattern rug', price:15, desc:'Soft and striped'},
+  {id:'lantern', name:'Paper lantern', price:10, desc:'A warm glow'},
+  {id:'plate', name:'Plate of momos', price:5, desc:'Fresh from the kitchen'},
+];
+const DECOR = {
+  window:{x:3,y:3,g:["FFFFFFF","FSSSMSF","FSSMMMF","FGMGGGF","FFFFFFF"],c:{F:'#8A5A3B',S:'#BFE3F5',M:'#FFFFFF',G:'#7FBF7A'}},
+  target:{x:16,y:4,g:[".RRR.","RWWWR","RWYWR","RWWWR",".RRR."],c:{R:'#D2556E',W:'#FFFFFF',Y:'#F2C14E'}},
+  books:{x:27,y:3,g:["WWWWW","RBGYR","WWWWW","YGRBG","WWWWW"],c:{W:'#8A5A3B',R:'#D2556E',B:'#7D8FD6',G:'#7FBF7A',Y:'#F2C14E'}},
+  lantern:{x:12,y:1,g:[".L.","RRR","RYR","RRR"],c:{L:'#5C4033',R:'#E36B6B',Y:'#F7D9A8'}},
+  bamboo:{x:1,y:9,g:[".G.","GG.",".GG",".G.","PPP","PPP"],c:{G:'#6FB36B',P:'#C8643C'}},
+  bukhari:{x:23,y:8,g:[".PP.",".PP.",".PP.","BBBB","BOOB","BBBB","L..L"],c:{P:'#8C8C8C',B:'#4A4A4A',O:'#FF8A4C',L:'#4A4A4A'}},
+  plate:{x:9,y:16,g:[".MMM.","PPPPP"],c:{M:'#FFF4E0',P:'#C8A2C8'}},
+};
+function drawRoom(cv){
+  const ctx=cv.getContext('2d'), P=10, own=S.meta.owned||{};
+  const rect=(x,y,w,h,c)=>{ ctx.fillStyle=c; ctx.fillRect(x*P,y*P,w*P,h*P); };
+  rect(0,0,32,14,'#FBE9D2'); rect(0,12,32,2,'#9C5B4A');
+  for(let y=14;y<20;y++) rect(0,y,32,1, y%2?'#C9925F':'#D6A06B');
+  if(own.rug){ const k=['#E8B4C8','#F7D9A8','#BFDCC0','#C8A2C8','#F5C6A5']; for(let x=5;x<27;x++) rect(x,17,1,2,k[(x>>1)%5]); }
+  if(own.flags){ for(let x=1;x<31;x++) rect(x,1,1,1,'#B9A08A'); const k=['#7D8FD6','#FFFFFF','#E36B6B','#7FBF7A','#F2C14E']; for(let i=0;i<10;i++) rect(2+i*3,2,2,2,k[i%5]); }
+  ['window','target','books','lantern','bamboo','bukhari','plate'].forEach(id=>{ if(!own[id]) return; const d=DECOR[id];
+    d.g.forEach((row,y)=>[...row].forEach((ch,x)=>{ if(d.c[ch]) rect(d.x+x,d.y+y,1,1,d.c[ch]); })); });
+  const pp=5, ox=120, oy=105;
+  petPixels(currentBuddy(), 'happy').forEach(([x,y,c])=>{ ctx.fillStyle=c; ctx.fillRect(ox+x*pp, oy+y*pp, pp, pp); });
+}
+function renderRoom(){
+  const own=S.meta.owned||{}, eq=S.meta.equip||{}, coins=S.meta.coins||0, name=BUDDIES[currentBuddy()].name;
+  const items=SHOP.filter(it=>!it.event || isLosar() || own[it.id]);
+  const card = it => { const has=own[it.id], on=it.slot && eq[it.slot]===it.id;
+    return `<div class="item"><b>${esc(it.name)}</b><span class="small muted">${esc(it.desc)}</span>
+      ${has ? (it.slot ? `<button class="btn sm ${on?'primary':''}" data-equip="${it.id}">${on?'Wearing ✓':'Wear'}</button>` : '<span class="chip">In the room ✓</span>')
+        : coins>=it.price ? `<button class="btn sm mint" data-buy="${it.id}">Buy for Nu ${it.price}</button>` : `<span class="chip">Nu ${it.price} · need ${it.price-coins} more</span>`}</div>`; };
+  $('#v-room').innerHTML = `<canvas class="room" id="room" width="320" height="200" aria-label="${esc(name)}'s room"></canvas>
+    <div class="row" style="justify-content:space-between"><h2>${esc(name)}'s room</h2><b style="font-family:var(--font-pixel)">🪙 Nu ${coins}</b></div>
+    <p class="small muted" style="margin:0">Earn Nu by learning new words (3), getting answers right (1), writing class notes (5) and playing games.</p>
+    <div class="panel stack"><h3>Outfits</h3><div class="shop">${items.filter(i=>i.slot).map(card).join('')}</div></div>
+    <div class="panel stack"><h3>Room decor</h3><div class="shop">${items.filter(i=>!i.slot).map(card).join('')}</div></div>`;
+  drawRoom($('#room'));
+}
+function buyItem(id){
+  const it=SHOP.find(x=>x.id===id); if(!it) return;
+  if((S.meta.coins||0)<it.price){ toast('Not enough Nu yet. Keep learning!'); return; }
+  S.meta.coins-=it.price; S.meta.owned={...(S.meta.owned||{}), [id]:true};
+  if(it.slot) S.meta.equip={...(S.meta.equip||{}), [it.slot]:id};
+  putMeta(); renderCoins(); toast(`${it.name} bought! 🎉`); renderRoom();
+}
+function equipItem(id){
+  const it=SHOP.find(x=>x.id===id); if(!it||!it.slot) return;
+  const eq={...(S.meta.equip||{})}; eq[it.slot] = eq[it.slot]===id ? '' : id; S.meta.equip=eq; putMeta(); renderRoom();
+}
+
+/* ---------- weekly recap ---------- */
+function recapData(){
+  const since=lastSaturday().getTime(), words=Object.values(S.words), log=S.meta.log||{};
+  const days=[...Array(7)].map((_,i)=>ymd(new Date(Date.now()-(6-i)*864e5)));
+  const reviews=Object.entries(log).filter(([d])=>parseYmd(d).getTime()>=since).reduce((n,[,v])=>n+(v.r||0),0);
+  const newWords=words.filter(w=>(w.learnedAt||0)>=since);
+  const weak=words.filter(w=>(w.seen||0)>=2 && (w.correct||0)/(w.seen||1)<.8).sort((a,b)=>(a.correct/a.seen)-(b.correct/b.seen)||(b.lapses||0)-(a.lapses||0)).slice(0,5);
+  let nemesis=null, worst=101; Object.entries(S.meta.tp||{}).forEach(([k,[s,r]])=>{ if(s>=3){ const p=r/s*100; if(p<worst){ worst=p; nemesis=keyNum(k); } } });
+  const hw=Object.values(S.journal).flatMap(e=>(e.homework||[]).filter(h=>!h.done).map(h=>({...h, date:e.date})));
+  const latest=Object.values(S.journal).sort((a,b)=>b.date.localeCompare(a.date))[0];
+  return {since, days, log, reviews, newWords, weak, nemesis, worst, hw, latest};
+}
+function renderRecap(){
+  const r=recapData(), max=Math.max(1,...r.days.map(d=>(r.log[d]||{}).r||0)), name=BUDDIES[currentBuddy()].name;
+  $('#v-recap').innerHTML = scene('momo-r2', `Here's your week since ${esc(fmtDate(ymd(new Date(r.since))))}. ${r.reviews>=30?'What a busy week! 太棒了!':r.reviews?'Nice steady work.':'A quiet week. Let\'s do a little every day!'}`)
+    + `<div class="stats"><div class="stat"><div class="k">Reviews</div><div class="v">${r.reviews}</div></div><div class="stat"><div class="k">New words</div><div class="v">${r.newWords.length}</div></div>
+        <div class="stat"><div class="k">Streak</div><div class="v">${liveStreak()}d</div></div><div class="stat"><div class="k">Nu earned total</div><div class="v">${S.meta.coins||0}</div></div></div>
+      <div class="panel"><h3>Last 7 days</h3><div class="bars">${r.days.map(d=>{ const v=(r.log[d]||{}).r||0; return `<div class="bar" title="${v} reviews"><span>${v||''}</span><i style="height:${Math.round(v/max*80)}%"></i><span>${parseYmd(d).toLocaleDateString('en-GB',{weekday:'narrow'})}</span></div>`; }).join('')}</div></div>
+      ${r.newWords.length?`<div class="panel"><h3>New this week</h3><div class="jwords" style="margin-top:8px">${r.newWords.map(w=>`<span class="chip" title="${esc(w.meaning)}"><span class="py">${colorPinyin(w.pinyin)}</span> ${esc(w.meaning)}</span>`).join('')}</div></div>`:''}
+      <div class="panel stack"><h3>Needs love</h3>${r.weak.length?r.weak.map(w=>`<div class="hbar"><span class="py">${colorPinyin(w.pinyin)}</span><span class="track"><i style="width:${Math.round((w.correct||0)/(w.seen||1)*100)}%"></i></span><span class="small">${esc(w.meaning)}</span></div>`).join(''):'<p class="small muted" style="margin:0">No weak words yet. Keep it up!</p>'}
+        ${r.nemesis?`<p style="margin:0">Tone nemesis: <b>${r.nemesis}</b> (${Math.round(r.worst)}%)</p>`:''}</div>
+      <div class="panel stack"><h3>Before Saturday</h3>${r.hw.length?r.hw.map(h=>`<div>☐ ${esc(h.text)} <span class="small muted">from ${esc(fmtDate(h.date))}</span></div>`).join(''):'<p class="small muted" style="margin:0">No homework left 🎉</p>'}
+        ${r.latest&&(r.latest.questions||[]).length?`<div><b>Questions to ask</b><ul style="margin:4px 0 0;padding-left:20px">${r.latest.questions.map(q=>`<li>${richLine(q)}</li>`).join('')}</ul></div>`:''}</div>
+      <div class="row"><button class="btn primary" data-act="recap-plan">Ask ${esc(name)} for a study plan</button><button class="btn" data-go="journal">Class notes</button><button class="btn" data-go="home">Home</button></div>`;
+  drawMomo($('#momo-r2'),'happy');
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click', e=>{
+  const b = e.target.closest('button,[data-go],#card'); if(!b) return;
+  if(b.id==='card'){ flip(); return; }
+  const d=b.dataset;
+  if(d.view){ show(d.view); return; }
+  if(d.go){ show(d.go); return; }
+  if(d.speak){ speak(d.speak); return; }
+  if(d.studymode){ S.meta.studyMode=d.studymode; putMeta(); Q=null; renderHome(); toast(d.studymode==='pinyin'?'Pinyin-first mode on':'Hanzi mode on. 加油 for Chinese 2!'); return; }
+  if(d.choice!==undefined){ if(!Q||Q.answered) return; const it=Q.items[Q.i]; answer(+d.choice===it.answer, +d.choice); return; }
+  if(d.group){ wGroup=d.group; try{ localStorage.setItem('blc-group',wGroup); }catch(e){} renderWords(); return; }
+  if(d.cat!==undefined){ wCat=d.cat; renderWords(); return; }
+  if(d.hw){ const [id,i]=d.hw.split(':'), e=S.journal[id]; if(e&&e.homework[+i]){ const hw=e.homework.map((h,k)=>k===+i?{...h,done:!h.done}:h); putJournal({...e, homework:hw}); if(hw[+i].done) toast('Homework done ✓'); renderJournal(); } return; }
+  if(d.jedit){ editJ(d.jedit); return; }
+  if(d.jdel){ if(b.dataset.armed){ delJournal(d.jdel); toast('Entry deleted'); renderJournal(); } else { b.dataset.armed='1'; b.textContent='Sure?'; b.classList.add('rose'); setTimeout(()=>{ if(b.isConnected){ delete b.dataset.armed; b.textContent='Delete'; b.classList.remove('rose'); } },3000); } return; }
+  if(d.jpractice){ startReview(true, null, Object.values(S.words).filter(w=>w.classDate===d.jpractice).map(w=>w.id)); return; }
+  if(d.buddy){ S.meta.buddy=d.buddy; if(S.meta.fresh===d.buddy) S.meta.fresh=''; putMeta(); renderHome(); toast(`${BUDDIES[d.buddy].name} is studying with you now`); return; }
+  if(d.rate){ rate(+d.rate); return; }
+  if(d.edit){ editWord(d.edit); return; }
+  if(d.del){ if(b.dataset.armed){ delWord(d.del); toast('Word deleted'); renderWords(); renderFlags(); } else { b.dataset.armed='1'; b.textContent='Sure?'; b.classList.add('rose'); setTimeout(()=>{ if(b.isConnected){ delete b.dataset.armed; b.textContent='Delete'; b.classList.remove('rose'); } },3000); } return; }
+  if(d.gedit){ editG(d.gedit); return; }
+  if(d.gdel){ if(b.dataset.armed){ delGrammar(d.gdel); toast('Pattern deleted'); renderGrammar(); } else { b.dataset.armed='1'; b.textContent='Sure?'; b.classList.add('rose'); setTimeout(()=>{ if(b.isConnected){ delete b.dataset.armed; b.textContent='Delete'; b.classList.remove('rose'); } },3000); } return; }
+  if(d.tp){ answerTones(d.tp); return; }
+  if(d.card!==undefined){ flipCard(+d.card); return; }
+  if(d.spopt){ answerSpeed(d.spopt); return; }
+  if(d.exopt!==undefined){ if(EX){ EX.sel=d.exopt; $('#ex-err').textContent=''; document.querySelectorAll('.exopt').forEach(x=>x.setAttribute('aria-pressed', x.dataset.exopt===d.exopt)); } return; }
+  if(d.ask){ askQuick(d.ask); return; }
+  if(d.buy){ buyItem(d.buy); return; }
+  if(d.equip){ equipItem(d.equip); return; }
+  if(d.opt){ if(!Q||Q.answered) return; answer(d.opt===Q.items[Q.i].id, d.opt); return; }
+  if(d.quizLesson!==undefined){ quizLesson=d.quizLesson; Q=null; show('quiz'); return; }
+  switch(d.act){
+    case 'starter': addStarter(); break;
+    case 'review': startReview(false); break;
+    case 'practice': startReview(true); break;
+    case 'j-new': openJournalForm(d.date); break;
+    case 'practice-cat': startReview(true, $('#r-cat').value); break;
+    case 'end-review': R=null; renderReviewStart(); refresh(); break;
+    case 'quiz-start': startQuiz(); break;
+    case 'quiz-again': renderQuizSetup(); break;
+    case 'q-check': checkTyped(); break;
+    case 'q-next': Q.i++; Q.answered=false; Q.picked=null; renderQ(); break;
+    case 'fill-hanzi': fillHanzi(); break;
+    case 'export': exportData(); break;
+    case 'tp-start': startTones(); break;
+    case 'tp-next': TP.i++; TP.answered=false; TP.pick=null; renderTones(); break;
+    case 'tp-home': TP=null; renderTonesHome(); break;
+    case 'mm-start': startMatch(); break;
+    case 'sp-start': startSpeed(); break;
+    case 'ex-start': startExam(); break;
+    case 'ex-next': examNext(false); break;
+    case 'ex-skip': examNext(true); break;
+    case 'ex-home': EX=null; renderExamSetup(); break;
+    case 'ask-send': sendAsk($('#ask-in').value); break;
+    case 'ask-clear': ASK.msgs=[]; renderAsk(); break;
+    case 'recap-plan': askPlan(); break;
+  }
+});
+document.addEventListener('toggle', e=>{
+  const t=e.target; if(!t.matches) return;
+  const set = t.matches('details.wgroup') ? [openGroups, t.dataset.g] : t.matches('details.witem') ? [openItems, t.dataset.w] : t.matches('details.note') ? [openNotes, t.dataset.n] : null;
+  if(set){ t.open ? set[0].add(set[1]) : set[0].delete(set[1]); }
+}, true);
+document.addEventListener('change', e=>{ if(e.target.id==='hint-toggle'){ S.meta.hanziHints=e.target.checked; putMeta(); }
+  if(e.target.id==='import-file' && e.target.files[0]){ importData(e.target.files[0]); e.target.value=''; } });
+window.addEventListener('online', ()=>{ setSync(syncState); if(col && pending.size && !flushing) flush(); });
+window.addEventListener('offline', ()=>setSync('offline'));
+document.addEventListener('keydown', e=>{
+  if(view==='ask' && e.target.id==='ask-in' && e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendAsk(e.target.value); return; }
+  if(view!=='review' || !R || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+  if(e.key===' ' || e.key==='Enter'){ e.preventDefault(); R.flipped ? null : flip(); }
+  else if(/^[1-4]$/.test(e.key)) rate(+e.key);
+});
+$('#f-save').addEventListener('click', saveWordForm);
+$('#f-cancel').addEventListener('click', ()=>{ clearWordForm(); $('#add-wrap').open=false; });
+F.forEach(k=>$('#f-'+k).addEventListener('input',()=>$('#f-err').textContent=''));
+F.forEach(k=>$('#f-'+k).addEventListener('keydown',e=>{ if(e.key==='Enter') saveWordForm(); }));
+$('#f-pinyin').addEventListener('input',e=>{ const v=e.target.value; $('#f-pypreview').innerHTML = v ? 'Saves as: <span class="py">'+colorPinyin(toPinyin(v))+'</span>' : ''; });
+$('#bulk-go').addEventListener('click', bulkImport);
+$('#bulk').addEventListener('input',()=>$('#bulk-err').textContent='');
+$('#starter-2').addEventListener('click', addStarter);
+$('#w-search').addEventListener('input', renderWords);
+$('#g-save').addEventListener('click', saveGForm);
+$('#j-save').addEventListener('click', saveJournal);
+$('#j-cancel').addEventListener('click', ()=>{ clearJForm(); $('#j-form-wrap').open=false; });
+['date','topic','notes','pron','pat','words','hw'].forEach(k=>$('#j-'+k).addEventListener('input',()=>$('#j-err').textContent=''));
+$('#g-cancel').addEventListener('click', clearGForm);
+['pattern','expl'].forEach(k=>$('#g-'+k).addEventListener('input',()=>$('#g-err').textContent=''));
+if(canSpeak){ try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>{}; }catch(e){} }
+
+/* ---------- boot ---------- */
+loadLocal(); loadPending();
+if(Object.keys(S.words).length) loaded = true;
+renderFlags(); show('home');
+setTimeout(()=>{ if(!loaded){ loaded=true; refresh(); } }, 10000);
+initCloud();
+</script>
+
+<script>
+if('serviceWorker' in navigator) addEventListener('load', ()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+document.getElementById('backup-note').textContent = 'This offline app saves on this device only. Save a backup file now and then, and use it to move data to or from the online app.';
+</script>
+</body>
+</html>
